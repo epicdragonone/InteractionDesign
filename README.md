@@ -1,3 +1,3 @@
-#Interaction Design Group 6
+Interaction Design Group 6
 
-#Climbing weather app
+Climbing weather app
