@@ -37,7 +37,12 @@ class MyApp extends StatelessWidget {
       ),
       home: Stack(children: [
                 const HomePage(title: 'Flutter Demo Home Page'), 
-                const SearchMenu(),
+                Positioned(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4, // 40% of screen width
+                    child: const SearchMenu(),
+                  ),
+                ),
             ])
     );
   }
