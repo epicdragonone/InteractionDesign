@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatelessWidget { // Need to change this to StatefulWidget. 
+  const HomePage({super.key}); // But then I need to add a create() method. Will look into it later.
+  /*
+  String cragName = "";
+  String difficulty = "";
+  String imageAddress = "";
+  String rainedXHoursAgo = "";
+  String heat = "";
+  String wind = "";
+  String rain = "";
+  String calculatedGoodness = "";
+  String currTime = "";
+  String alphaCrag = "";
+  String betaCrag = "";
+  String charlieCrag = "";
+  String deltaCrag = "";
+  String echoCrag = ""; 
+  */
+
 
   @override
-
-  
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -20,10 +35,10 @@ class HomePage extends StatelessWidget {
             width: 200,
             height: 100,
             decoration: BoxDecoration(
-              color: const Color(0x1f000000),
+              color: Color.fromARGB(255, 255, 255, 255),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+              border: Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
             ),
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -67,7 +82,7 @@ class HomePage extends StatelessWidget {
             width: 250,
             height: 250,
             decoration: BoxDecoration(
-              color: Color.fromARGB(31, 255, 255, 255),
+              color: Color.fromARGB(255, 255, 255, 255), // Colour behind the image
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
@@ -88,7 +103,7 @@ class HomePage extends StatelessWidget {
             width: 230,
             height: 300,
             decoration: BoxDecoration(
-              color: const Color(0x1f000000),
+              color: Color.fromARGB(255, 255, 255, 255), // Colour of container
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
@@ -101,7 +116,7 @@ class HomePage extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: Text(
-                    "Rained xx hours ago",
+                    "Rained 8 hours ago",
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
@@ -310,7 +325,7 @@ class HomePage extends StatelessWidget {
               width: 200,
               height: 100,
               decoration: BoxDecoration(
-                color: const Color(0x1f000000),
+                color: Color.fromARGB(255, 255, 255, 255),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.zero,
                 border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
