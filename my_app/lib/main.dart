@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Stack(children: [
-          const HomePage(), 
+          HomePage(), 
 
           if (isSideBarExpanded && isSearch) //expand search menu
           
