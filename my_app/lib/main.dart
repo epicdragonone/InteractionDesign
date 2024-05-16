@@ -35,7 +35,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      home: Stack(children: [
+                const HomePage(title: 'Flutter Demo Home Page'), 
+                Positioned(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4, // 40% of screen width
+                    child: const SearchMenu(),
+                  ),
+                ),
+            ])
     );
   }
 }
