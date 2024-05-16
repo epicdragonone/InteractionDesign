@@ -17,11 +17,36 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isSearchMenuExpanded = false;
+  bool isSideBarExpanded = false;
+  bool isSearch = true; //true for search, false for filter
 
-  void toggleSearchMenu() {
+  List<String> searchMenuData = [
+      'Crag01',
+      'Crag02',
+      'Crag03',
+      'Crag04',
+      'Crag05',
+      'Crag06',
+      'Crag07',
+      'Crag08',
+      'Crag09',
+      'Crag10',
+      'Crag11',
+      'Crag12',
+      'Crag13',
+      'Crag14',
+      'Crag15',
+    ];
+
+  void toggleSideBar() {
     setState(() {
-      isSearchMenuExpanded = !isSearchMenuExpanded;
+      isSideBarExpanded = !isSideBarExpanded;
+    });
+  }
+
+  void toggleSearchFilter() {
+    setState(() {
+      isSearch = !isSearch;
     });
   }
 
@@ -50,24 +75,38 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Stack(children: [
-                HomePage(), 
-                Positioned(
-                  child: SearchMenu(
-                    width: MediaQuery.of(context).size.width *
-                  (isSearchMenuExpanded ? 0.413 : 0), //wierd offset to align SearchMenu and ToggleButton
-                  ),
+          const HomePage(), 
+
+          if (isSideBarExpanded && isSearch) //expand search menu
+          
+            Positioned(
+              child: SearchMenu(
+                width: MediaQuery.of(context).size.width * 0.413,
+                data: searchMenuData,
+                onFilterButtonPressed: toggleSearchFilter,
+              ),
+            ),
+
+          if (isSideBarExpanded && !isSearch) //expand filter page
+            Positioned(
+                child: FilterPage(
+                  width: MediaQuery.of(context).size.width * 0.413,
+                  onApplyButtonPressed: toggleSearchFilter
                 ),
-                Positioned(
-                left: MediaQuery.of(context).size.width *
-                  (isSearchMenuExpanded ? 0.4 : -0.013),
-                top:MediaQuery.of(context).size.height * 0.5,
-                child: ToggleButton(
-                  onPressed: toggleSearchMenu,
-                ),
-                
-                ),
-            ])
+            ),
+            
+          Positioned(
+            left: MediaQuery.of(context).size.width * (isSideBarExpanded ? 0.4 : -0.013),
+            top: MediaQuery.of(context).size.height * 0.5,
+            child: ToggleButton(
+              onPressed: toggleSideBar
+            ),
+          ),
+
+
+        ])
     );
   }
 }
+
 
