@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/filterPage.dart';
 import 'package:my_app/toggleButton.dart';
-import 'weatherAPI.dart';
 import "toggleButton.dart";
 
 class SearchMenu extends StatefulWidget {

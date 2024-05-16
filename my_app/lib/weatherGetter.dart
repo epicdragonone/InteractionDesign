@@ -32,7 +32,7 @@ class Weather {
         locationName: json['location']['name'] as String,
         region: json['location']['region'] as String,
         country: json['location']['country'] as String,
-        localTime: json['current']['last_updated'] as String,
+        localTime: (firstHour['time']) as String,
         tempC: (firstHour['temp_c'] as num).toDouble(),
         conditionText: firstHour['condition']['text'] as String,
         windKph: (firstHour['wind_kph'] as num).toDouble(),
