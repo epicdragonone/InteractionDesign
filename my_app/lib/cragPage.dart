@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+
 
 class CragPage extends StatefulWidget {
   const CragPage({super.key, required this.title});
