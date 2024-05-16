@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget { // Need to change this to StatefulWidget. 
-  const HomePage({super.key}); // But then I need to add a create() method. Will look into it later.
+  const HomePage({super.key}); // But then I need to add a create() method. Will look into it later. (filter page looks ok tho)
   /*
   String cragName = "";
   String difficulty = "";
