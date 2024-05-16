@@ -1,35 +1,37 @@
 import 'package:flutter/material.dart';
 
-class HomeDesignProp extends StatelessWidget {
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
 
   
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(0),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             width: 200,
             height: 100,
             decoration: BoxDecoration(
-              color: Color(0x1f000000),
+              color: const Color(0x1f000000),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Text(
                     "Sigma Crag",
                     textAlign: TextAlign.start,
@@ -60,20 +62,20 @@ class HomeDesignProp extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.fromLTRB(40, 15, 40, 0),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.fromLTRB(40, 15, 40, 0),
             width: 200,
             height: 200,
             decoration: BoxDecoration(
-              color: Color(0x1f000000),
+              color: Color.fromARGB(31, 255, 255, 255),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
             child:
 
                 ///***If you have exported images you must have to copy those images in assets/images directory.
-                Image(
+                const Image(
               image: NetworkImage("https://picsum.photos/250?image=9"),
               height: 100,
               width: 140,
@@ -81,22 +83,22 @@ class HomeDesignProp extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(0),
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             width: 230,
             height: 230,
             decoration: BoxDecoration(
-              color: Color(0x1f000000),
+              color: const Color(0x1f000000),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.zero,
-              border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+              border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: Text(
                     "Rained xx hours ago",
@@ -110,8 +112,8 @@ class HomeDesignProp extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,7 +155,7 @@ class HomeDesignProp extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
                   child: Text(
                     "Great",
@@ -178,12 +180,12 @@ class HomeDesignProp extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                           onPressed: () {},
-                          color: Color(0xff212435),
+                          color: const Color(0xff212435),
                           iconSize: 24,
                         ),
-                        Text(
+                        const Text(
                           "-1D",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
@@ -202,12 +204,12 @@ class HomeDesignProp extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                           onPressed: () {},
-                          color: Color(0xff212435),
+                          color: const Color(0xff212435),
                           iconSize: 24,
                         ),
-                        Text(
+                        const Text(
                           "-1h",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
@@ -226,18 +228,21 @@ class HomeDesignProp extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                           child: MaterialButton(
                             onPressed: () {},
-                            color: Color(0xffffffff),
+                            color: const Color(0xffffffff),
                             elevation: 0,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.zero,
                               side: BorderSide(
                                   color: Color(0xff808080), width: 1),
                             ),
-                            padding: EdgeInsets.all(16),
-                            child: Text(
+                            padding: const EdgeInsets.all(16),
+                            textColor: const Color(0xff000000),
+                            height: 40,
+                            minWidth: 60,
+                            child: const Text(
                               "now",
                               style: TextStyle(
                                 fontSize: 14,
@@ -245,12 +250,9 @@ class HomeDesignProp extends StatelessWidget {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                            textColor: Color(0xff000000),
-                            height: 40,
-                            minWidth: 60,
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                           child: Text(
                             "currTime",
@@ -272,12 +274,12 @@ class HomeDesignProp extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                           onPressed: () {},
-                          color: Color(0xff212435),
+                          color: const Color(0xff212435),
                           iconSize: 24,
                         ),
-                        Text(
+                        const Text(
                           "+1h",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
@@ -296,12 +298,12 @@ class HomeDesignProp extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                           onPressed: () {},
-                          color: Color(0xff212435),
+                          color: const Color(0xff212435),
                           iconSize: 24,
                         ),
-                        Text(
+                        const Text(
                           "+1D",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.clip,
@@ -322,15 +324,15 @@ class HomeDesignProp extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Container(
-              margin: EdgeInsets.all(0),
-              padding: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               width: 200,
               height: 100,
               decoration: BoxDecoration(
-                color: Color(0x1f000000),
+                color: const Color(0x1f000000),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.zero,
-                border: Border.all(color: Color(0x4d9e9e9e), width: 1),
+                border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
               ),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -341,14 +343,17 @@ class HomeDesignProp extends StatelessWidget {
                   children: [
                     MaterialButton(
                       onPressed: () {},
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xff000000),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Alpha Crag",
                         style: TextStyle(
                           fontSize: 14,
@@ -356,20 +361,20 @@ class HomeDesignProp extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xff000000),
-                      height: 40,
-                      minWidth: 140,
                     ),
                     MaterialButton(
                       onPressed: () {},
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xff000000),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Beta Crag",
                         style: TextStyle(
                           fontSize: 14,
@@ -377,20 +382,20 @@ class HomeDesignProp extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xff000000),
-                      height: 40,
-                      minWidth: 140,
                     ),
                     MaterialButton(
                       onPressed: () {},
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xff000000),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Charlie Crag",
                         style: TextStyle(
                           fontSize: 14,
@@ -398,20 +403,20 @@ class HomeDesignProp extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xff000000),
-                      height: 40,
-                      minWidth: 140,
                     ),
                     MaterialButton(
                       onPressed: () {},
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xff000000),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Delta Crag",
                         style: TextStyle(
                           fontSize: 14,
@@ -419,20 +424,20 @@ class HomeDesignProp extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xff000000),
-                      height: 40,
-                      minWidth: 140,
                     ),
                     MaterialButton(
                       onPressed: () {},
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         side: BorderSide(color: Color(0xff808080), width: 1),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
+                      padding: const EdgeInsets.all(16),
+                      textColor: const Color(0xff000000),
+                      height: 40,
+                      minWidth: 140,
+                      child: const Text(
                         "Echo Crag",
                         style: TextStyle(
                           fontSize: 14,
@@ -440,9 +445,6 @@ class HomeDesignProp extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                         ),
                       ),
-                      textColor: Color(0xff000000),
-                      height: 40,
-                      minWidth: 140,
                     ),
                   ],
                 ),
