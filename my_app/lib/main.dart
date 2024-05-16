@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Stack(children: [
-                const HomePage(), 
+                HomePage(), 
                 Positioned(
                   child: SearchMenu(
                     width: MediaQuery.of(context).size.width *
