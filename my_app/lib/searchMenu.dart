@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/toggleButton.dart';
+import 'weatherAPI.dart';
+import "toggleButton.dart";
 
 // class SearchMenu extends StatelessWidget {
 //   const SearchMenu({super.key});
@@ -9,32 +12,130 @@ import 'package:flutter/material.dart';
 //   }
 // }
 
+// class ExpandableSearchMenu extends StatefulWidget {
+//   @override
+//   _ExpandableSearchMenuState createState() => _ExpandableSearchMenuState();
+// }
+
+// class _ExpandableSearchMenuState extends State<ExpandableSearchMenu> {
+//   bool _isMenuExpanded = false;
+
+//   void _toggleMenu() {
+//     setState(() {
+//       _isMenuExpanded = !_isMenuExpanded;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return 
+//     AnimatedContainer(
+//       duration: Duration(milliseconds: 300),
+//       curve: Curves.easeInOut,
+//       width: _isMenuExpanded ? MediaQuery.of(context).size.width : 0,
+//       child: 
+//         Scaffold(
+//         appBar: AppBar(
+//           title: Text('Expandable Search Menu'),
+//           leading: _isMenuExpanded
+//               ? IconButton(
+//                   icon: Icon(Icons.arrow_back),
+//                   onPressed: _toggleMenu,
+//                 )
+//               : null,
+//         ),
+//         body: Stack(
+//           children: [
+//             // Main content of the screen
+//             Center(
+//               child: Text(
+//                 'Main Content',
+//                 style: TextStyle(fontSize: 24.0),
+//               ),
+//             ),
+//             // Animated search menu
+//             AnimatedContainer(
+//               duration: Duration(milliseconds: 300),
+//               curve: Curves.easeInOut,
+//               width: _isMenuExpanded ? MediaQuery.of(context).size.width * 0.6 : 0,
+//               height: MediaQuery.of(context).size.height,
+//               color: Colors.white,
+//               alignment: Alignment.centerLeft,
+//               child: Padding(
+//                 padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       'Search Menu',
+//                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+//                     ),
+//                     SizedBox(height: 20.0),
+//                     TextField(
+//                       decoration: InputDecoration(
+//                         hintText: 'Enter your search query...',
+//                         border: OutlineInputBorder(),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         floatingActionButton: _isMenuExpanded
+//             ? null // Hide FloatingActionButton when menu is expanded
+//             : FloatingActionButton(
+//                 onPressed: _toggleMenu,
+//                 tooltip: 'Expand Search',
+//                 child: Icon(Icons.search),
+//               ),
+//         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+//       ),
+//     );
+//   }
+// }
+
+
+
+
 class SearchMenu extends StatefulWidget {
-  const SearchMenu({Key? key}) : super(key: key);
+
+  final double width; // Width parameter
+  const SearchMenu({Key? key, required this.width}) : super(key: key);
 
   @override
   State<SearchMenu> createState() => _SearchMenuState();
 }
 
 class _SearchMenuState extends State<SearchMenu> {
+
+  bool _isExpanded = false;
+
+  void _toggleMenu() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
+
   final TextEditingController _searchController = TextEditingController();
 
   final List<String> _data = [
-    'Apple',
-    'Banana',
-    'Cherry',
-    'Date',
-    'Fig',
-    'Grape',
-    'Lemon',
-    'Mango',
-    'Orange',
-    'Papaya',
-    'Peach',
-    'Plum',
-    'Raspberry',
-    'Strawberry',
-    'Watermelon',
+    'Crag01',
+    'Crag02',
+    'Crag03',
+    'Crag04',
+    'Crag05',
+    'Crag06',
+    'Crag07',
+    'Crag08',
+    'Crag09',
+    'Crag10',
+    'Crag11',
+    'Crag12',
+    'Crag13',
+    'Crag14',
+    'Crag15',
   ];
   List<String> _filteredData = [];
   bool _isLoading = false;
@@ -56,7 +157,7 @@ class _SearchMenuState extends State<SearchMenu> {
     setState(() {
       _isLoading = true;
     });
-
+  
     //Simulates waiting for an API call
     await Future.delayed(const Duration(milliseconds: 1000));
 
@@ -71,7 +172,11 @@ class _SearchMenuState extends State<SearchMenu> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    return Container(
+      width: widget.width, // Set the width from the parameter
+      child: 
+    Scaffold(
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -107,8 +212,11 @@ class _SearchMenuState extends State<SearchMenu> {
                 ),
               ),
         backgroundColor: Colors.deepPurple.shade900,
-      );
+      ));
+  }
 }
+
+
 
 
 // class ResultsList extends StatelessWidget {

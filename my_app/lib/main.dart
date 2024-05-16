@@ -3,13 +3,27 @@ import 'homePage.dart';
 import 'filterPage.dart';
 import 'searchMenu.dart';
 import 'cragPage.dart';
+import 'toggleButton.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isSearchMenuExpanded = false;
+
+  void toggleSearchMenu() {
+    setState(() {
+      isSearchMenuExpanded = !isSearchMenuExpanded;
+    });
+  }
 
   // This widget is the root of your application.
   @override
@@ -38,10 +52,19 @@ class MyApp extends StatelessWidget {
       home: Stack(children: [
                 const HomePage(title: 'Flutter Demo Home Page'), 
                 Positioned(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4, // 40% of screen width
-                    child: const SearchMenu(),
+                  child: SearchMenu(
+                    width: MediaQuery.of(context).size.width *
+                  (isSearchMenuExpanded ? 0.4 : 0),
                   ),
+                ),
+                Positioned(
+                left: MediaQuery.of(context).size.width *
+                  (isSearchMenuExpanded ? 0.4 : 0),
+                top:MediaQuery.of(context).size.height * 0.5,
+                child: ToggleButton(
+                  onPressed: toggleSearchMenu,
+                ),
+                
                 ),
             ])
     );

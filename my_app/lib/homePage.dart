@@ -64,8 +64,8 @@ class HomePage extends StatelessWidget {
           Container(
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.fromLTRB(40, 15, 40, 0),
-            width: 200,
-            height: 200,
+            width: 250,
+            height: 250,
             decoration: BoxDecoration(
               color: Color.fromARGB(31, 255, 255, 255),
               shape: BoxShape.rectangle,
@@ -76,7 +76,7 @@ class HomePage extends StatelessWidget {
 
                 ///***If you have exported images you must have to copy those images in assets/images directory.
                 const Image(
-              image: NetworkImage("https://picsum.photos/250?image=9"),
+              image: NetworkImage("https://thumbs.dreamstime.com/b/summit-helm-crag-19175355.jpg"),
               height: 100,
               width: 140,
               fit: BoxFit.cover,
@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.all(0),
             width: 230,
-            height: 230,
+            height: 300,
             decoration: BoxDecoration(
               color: const Color(0x1f000000),
               shape: BoxShape.rectangle,
@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
-                      fontSize: 20,
+                      fontSize: 28,
                       color: Color(0xff000000),
                     ),
                   ),
@@ -126,7 +126,7 @@ class HomePage extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 20,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -137,7 +137,7 @@ class HomePage extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 20,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -148,7 +148,7 @@ class HomePage extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
-                          fontSize: 14,
+                          fontSize: 20,
                           color: Color(0xff000000),
                         ),
                       ),
@@ -156,7 +156,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
                   child: Text(
                     "Great",
                     textAlign: TextAlign.center,
@@ -164,97 +164,78 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
-                      fontSize: 14,
+                      fontSize: 30,
                       color: Color(0xff009700),
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {},
-                          color: const Color(0xff212435),
-                          iconSize: 24,
-                        ),
-                        const Text(
-                          "-1D",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {},
-                          color: const Color(0xff212435),
-                          iconSize: 24,
-                        ),
-                        const Text(
-                          "-1h",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-                          child: MaterialButton(
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 25, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.keyboard_double_arrow_left),
                             onPressed: () {},
-                            color: const Color(0xffffffff),
-                            elevation: 0,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                              side: BorderSide(
-                                  color: Color(0xff808080), width: 1),
-                            ),
-                            padding: const EdgeInsets.all(16),
-                            textColor: const Color(0xff000000),
-                            height: 40,
-                            minWidth: 60,
-                            child: const Text(
-                              "now",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                              ),
+                            color: Color(0xff212435),
+                            iconSize: 24,
+                          ),
+                          Text(
+                            "-1D",
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
                             ),
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Text(
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.keyboard_arrow_left),
+                            onPressed: () {},
+                            color: Color(0xff212435),
+                            iconSize: 24,
+                          ),
+                          Text(
+                            "-1h",
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.restore),
+                            onPressed: () {},
+                            color: Color(0xff212435),
+                            iconSize: 24,
+                          ),
+                          Text(
                             "currTime",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
@@ -265,58 +246,58 @@ class HomePage extends StatelessWidget {
                               color: Color(0xff000000),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {},
-                          color: const Color(0xff212435),
-                          iconSize: 24,
-                        ),
-                        const Text(
-                          "+1h",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.keyboard_arrow_right),
+                            onPressed: () {},
+                            color: Color(0xff212435),
+                            iconSize: 24,
                           ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {},
-                          color: const Color(0xff212435),
-                          iconSize: 24,
-                        ),
-                        const Text(
-                          "+1D",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14,
-                            color: Color(0xff000000),
+                          Text(
+                            "+1h",
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.keyboard_double_arrow_right),
+                            onPressed: () {},
+                            color: Color(0xff212435),
+                            iconSize: 24,
+                          ),
+                          Text(
+                            "+1D",
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
