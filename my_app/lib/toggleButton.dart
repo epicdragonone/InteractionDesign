@@ -24,7 +24,8 @@ class _ToggleButtonState extends State<ToggleButton> {
           widget.onPressed!(); // Invoke the onPressed callback
         }
       },
-      child: Center(
+      child: Align(
+        alignment: Alignment.centerLeft,
           child: Transform.rotate(
               angle: -90 *
                   3.1415927 /
@@ -32,7 +33,7 @@ class _ToggleButtonState extends State<ToggleButton> {
               child: AnimatedContainer(
                 width: 50.0,
                 height:
-                    50.0, // Use half the desired height to make a semicircle
+                    30.0, // Use half the desired height to make a semicircle
                 duration: const Duration(seconds: 2),
                 curve: Curves.fastOutSlowIn,
                 decoration: BoxDecoration(

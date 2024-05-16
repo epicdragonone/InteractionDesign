@@ -50,16 +50,16 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Stack(children: [
-                const HomePage(title: 'Flutter Demo Home Page'), 
+                const HomePage(), 
                 Positioned(
                   child: SearchMenu(
                     width: MediaQuery.of(context).size.width *
-                  (isSearchMenuExpanded ? 0.4 : 0),
+                  (isSearchMenuExpanded ? 0.413 : 0), //wierd offset to align SearchMenu and ToggleButton
                   ),
                 ),
                 Positioned(
                 left: MediaQuery.of(context).size.width *
-                  (isSearchMenuExpanded ? 0.4 : 0),
+                  (isSearchMenuExpanded ? 0.4 : -0.013),
                 top:MediaQuery.of(context).size.height * 0.5,
                 child: ToggleButton(
                   onPressed: toggleSearchMenu,
