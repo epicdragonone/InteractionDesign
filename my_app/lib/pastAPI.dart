@@ -3,22 +3,22 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class Weather {
+class PastWeather {
+  final String localTime;
   final String locationName;
   final String region;
   final String country;
-  final String localtime;
   final double tempC;
   final String conditionText;
   final double windKph;
   final int humidity;
   final double feelslikeC;
 
-  const Weather({
+  const PastWeather({
+    required this.localTime,
     required this.locationName,
     required this.region,
     required this.country,
-    required this.localtime,
     required this.tempC,
     required this.conditionText,
     required this.windKph,
@@ -26,36 +26,36 @@ class Weather {
     required this.feelslikeC,
   });
 
-  factory Weather.fromJson(Map<String, dynamic> json) {
-    return Weather(
+  factory PastWeather.fromJson(Map<String, dynamic> json) {
+    return PastWeather(
       locationName: json['location']['name'] as String,
       region: json['location']['region'] as String,
       country: json['location']['country'] as String,
-      localtime: json['location']['localtime'] as String,
-      tempC: (json['current']['temp_c'] as num).toDouble(),
-      conditionText: json['current']['condition']['text'] as String,
-      windKph: (json['current']['wind_kph'] as num).toDouble(),
-      humidity: json['current']['humidity'] as int,
-      feelslikeC: (json['current']['feelslike_c'] as num).toDouble(),
+      localTime: json['forecast']['hour']['time'] as String,
+      tempC: (json['forecast']['hour']['temp_c'] as num).toDouble(),
+      conditionText: json['forecast']['hour']['condition']['text'] as String,
+      windKph: (json['forecast']['hour']['wind_kph'] as num).toDouble(),
+      humidity: json['forecast']['hour']['humidity'] as int,
+      feelslikeC: (json['forecast']['hour']['feelslike_c'] as num).toDouble(),
     );
   }
 }
 
-class WeatherApi {
+class PastApi {
   final String apiKey;
   final String baseUrl;
 
-  WeatherApi({required this.apiKey, this.baseUrl = 'http://api.weatherapi.com/v1'});
+  PastApi({required this.apiKey, this.baseUrl = 'http://api.weatherapi.com/v1'});
 
-  Future<Weather> fetchWeather(String query) async {
+  Future<PastWeather> fetchWeather(String query, DateTime dt, int hour) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/current.json?key=$apiKey&q=$query&aqi=no'),
+      Uri.parse('$baseUrl/history.json?key=$apiKey&q=$query&dt=$dt&hour=$hour'),
     );
 
     if (response.statusCode == 200) {
       print('Response body: ${response.body}');
       try {
-        return Weather.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+        return PastWeather.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
       } catch (e) {
         print('Error during parsing: $e');
         throw Exception('Failed to parse weather data');
