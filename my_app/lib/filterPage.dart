@@ -1,19 +1,39 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-
 enum RainIntensity { dry, drizzle, heavy, storm }
 
-void main() => runApp(const FilterPage());
-
 class FilterPage extends StatelessWidget {
-  const FilterPage({Key? key}) : super(key: key);
+  final VoidCallback onApplyButtonPressed;
+  final double width;
+  const FilterPage({Key? key,required this.width, required this.onApplyButtonPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Filters')),
+    return Container(
+        width: width,
+        child:
+      Scaffold(
+        appBar: AppBar(
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.purple.shade300, Colors.deepPurple],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  'Filters',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -21,6 +41,16 @@ class FilterPage extends StatelessWidget {
             RainChanceSlider(title: 'Rainfall Chance'),
             TemperatureSlider(title: 'Temperature (deg C)'),
             WindSpeedSlider(title: 'Windspeed (mph)'),
+            ElevatedButton(
+              child: Text("Apply"),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                elevation: MaterialStateProperty.all<double>(5),
+              ),
+              onPressed: () {
+                onApplyButtonPressed();
+              },
+            ),
           ],
         ),
       ),
