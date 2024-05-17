@@ -1,0 +1,19 @@
+{
+    "crags": {
+        "sigma_crag": {
+            "name": "Sigma Crag",
+            "longitude": 54.1,
+            "langitude": 11.3
+        },
+        "delta_crag": {
+            "name": "Delta Crag",
+            "longitude": 9.1,
+            "langitude": 20.315
+        },
+        "chugma_crag": {
+            "name": "Chugma Crag",
+            "longitude": 23.1,
+            "langitude": 61.3
+        }
+    }
+}
