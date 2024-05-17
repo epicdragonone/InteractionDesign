@@ -3,19 +3,58 @@ import 'homePage.dart';
 import 'filterPage.dart';
 import 'searchMenu.dart';
 import 'cragPage.dart';
+import 'toggleButton.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isSideBarExpanded = false;
+  bool isSearch = true; //true for search, false for filter
+
+  List<String> searchMenuData = [
+      'Crag01',
+      'Crag02',
+      'Crag03',
+      'Crag04',
+      'Crag05',
+      'Crag06',
+      'Crag07',
+      'Crag08',
+      'Crag09',
+      'Crag10',
+      'Crag11',
+      'Crag12',
+      'Crag13',
+      'Crag14',
+      'Crag15',
+    ];
+
+  void toggleSideBar() {
+    setState(() {
+      isSideBarExpanded = !isSideBarExpanded;
+    });
+  }
+
+  void toggleSearchFilter() {
+    setState(() {
+      isSearch = !isSearch;
+    });
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Interaction Design Group 6',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -36,15 +75,38 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Stack(children: [
-                const CragPage(title: "title", cragName: "delta_crag",), // DO NOT COMMIT
-                Positioned(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4, // 40% of screen width
-                    //child: const SearchMenu(),
-                  ),
+          const HomePage(), 
+
+          if (isSideBarExpanded && isSearch) //expand search menu
+          
+            Positioned(
+              child: SearchMenu(
+                width: MediaQuery.of(context).size.width * 0.413,
+                data: searchMenuData,
+                onFilterButtonPressed: toggleSearchFilter,
+              ),
+            ),
+
+          if (isSideBarExpanded && !isSearch) //expand filter page
+            Positioned(
+                child: FilterPage(
+                  width: MediaQuery.of(context).size.width * 0.413,
+                  onApplyButtonPressed: toggleSearchFilter
                 ),
-            ])
+            ),
+            
+          Positioned(
+            left: MediaQuery.of(context).size.width * (isSideBarExpanded ? 0.4 : -0.013),
+            top: MediaQuery.of(context).size.height * 0.5,
+            child: ToggleButton(
+              onPressed: toggleSideBar
+            ),
+          ),
+
+
+        ])
     );
   }
 }
+
 
