@@ -31,11 +31,19 @@ class MyApp extends StatelessWidget {
         // restart instead.
         //
         // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
+        // tested with just a h ot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const CragPage(title: 'TEST, DO NOT PUSH TO MAIN '),
+      home: Stack(children: [
+                const CragPage(title: "title", cragName: "delta_crag",), // DO NOT COMMIT
+                Positioned(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4, // 40% of screen width
+                    //child: const SearchMenu(),
+                  ),
+                ),
+            ])
     );
   }
 }
