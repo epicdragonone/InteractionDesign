@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
 enum RainIntensity { dry, drizzle, heavy, storm }
 
 class FilterPage extends StatelessWidget {
-  final VoidCallback onApplyButtonPressed;
+  final Function(List<String>) onApplyButtonPressed;
   final double width;
   const FilterPage({Key? key,required this.width, required this.onApplyButtonPressed}) : super(key: key);
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -36,25 +37,26 @@ class FilterPage extends StatelessWidget {
           ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children:[
             RainIntensitySlider(title: 'Rainfall Intensity'),
             RainChanceSlider(title: 'Rainfall Chance'),
             TemperatureSlider(title: 'Temperature (deg C)'),
             WindSpeedSlider(title: 'Windspeed (mph)'),
             ElevatedButton(
-              child: Text("Apply"),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                elevation: MaterialStateProperty.all<double>(5),
-              ),
-              onPressed: () {
-                onApplyButtonPressed();
-              },
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all<double>(5),
+                ),
+                onPressed: () {
+                  // Build filter criteria based on current slider values
+                  final List<String> filtered = ['filtered crag1', 'filtered crag2', 'filtered crag3'];
+                  // Pass filter criteria back to the parent widget
+                  onApplyButtonPressed(filtered);
+                },
+                child: Text('Apply'), // Add this child parameter
+              )
+            ]
             ),
-          ],
-        ),
-      ),
-    );
+        ));
   }
 }
 
