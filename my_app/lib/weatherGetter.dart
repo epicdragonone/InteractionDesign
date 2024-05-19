@@ -53,47 +53,30 @@ class Weather {
       feelslikeC: (json['current']['feelslike_c'] as num).toDouble(),
     );
   }
-}
-
-
-class ForecastApi {
-  final String apiKey;
-  final String baseUrl;
-
-  ForecastApi({this.apiKey = 'ebd60c5ee10a4d76ac4140717241405', this.baseUrl = 'http://api.weatherapi.com/v1'});
-  //parameter type must be forecast or history 
-  Future<Weather> fetchWeather(String query, String dt , int hour, String type) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/$type.json?key=$apiKey&q=$query&dt=$dt&hour=$hour'),
+    factory Weather.fromJsonDay(Map<String, dynamic> json, int hour) {
+    var firstHour = json['forecast']['forecastday'][0]['hour'][hour];
+    return Weather(
+        locationName: json['location']['name'] as String,
+        region: json['location']['region'] as String,
+        country: json['location']['country'] as String,
+        localTime: (firstHour['time']) as String,
+        tempC: (firstHour['temp_c'] as num).toDouble(),
+        conditionText: firstHour['condition']['text'] as String,
+        windKph: (firstHour['wind_kph'] as num).toDouble(),
+        humidity: firstHour['humidity'] as int,
+        feelslikeC: (firstHour['feelslike_c'] as num).toDouble(),
     );
-    if (type == "forecast" || type == "history")
-    {
-    if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
-      try {
-          return Weather.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-        }
-      catch (e) {
-        print('Error during parsing: $e');
-        throw Exception('Failed to parse weather data');
-      }
-    } else {
-      throw Exception('Failed to load weather data');
-    }
-    }
-    else{
-      throw Exception("invalid type");
-    }
   }
 }
 
-  class WeatherApi {
+
+class WeatherApi {
   final String apiKey;
   final String baseUrl;
 
-  WeatherApi({this.apiKey = 'ebd60c5ee10a4d76ac4140717241405', this.baseUrl = 'http://api.weatherapi.com/v1'});
+  WeatherApi({this.apiKey = 'ebd60c5ee10a4d76ac4140717241405 ', this.baseUrl = 'http://api.weatherapi.com/v1'});
 
-  Future<Weather> fetchWeather(String query) async {
+  Future<Weather> fetchCurrentWeather(String query) async {
     final response = await http.get(
       Uri.parse('$baseUrl/current.json?key=$apiKey&q=$query&aqi=no'),
     );
@@ -103,6 +86,50 @@ class ForecastApi {
       try {
         return Weather.fromJsonCurrent(jsonDecode(response.body) as Map<String, dynamic>);
       } catch (e) {
+        print('Error during parsing: $e');
+        throw Exception('Failed to parse weather data');
+      }
+    } else {
+      throw Exception('Failed to load weather data');
+    }
+  }
+
+  Future<Weather> fetchWeather(String query, String dt, int hour, String type) async {
+    if (type != 'forecast' && type != 'history') {
+      throw Exception("Invalid type, must be 'forecast' or 'history'");
+    }
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/$type.json?key=$apiKey&q=$query&dt=$dt&hour=$hour'),
+    );
+
+    if (response.statusCode == 200) {
+      print('Response body: ${response.body}');
+      try {
+        return Weather.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+      } catch (e) {
+        print('Error during parsing: $e');
+        throw Exception('Failed to parse weather data');
+      }
+    } else {
+      throw Exception('Failed to load weather data');
+    }
+  }
+  Future<List<Weather>> fetchWeatherDay(String query, String dt) async {
+    List<Weather> result = [];
+    final response = await http.get(
+      Uri.parse('$baseUrl/history.json?key=$apiKey&q=$query&dt=$dt'),
+    );
+
+    if (response.statusCode == 200) {
+      print('Response body: ${response.body}');
+      try {
+        for (int i = 0; i<24; i++)
+        {
+          result.add(Weather.fromJsonDay(jsonDecode(response.body) as Map<String, dynamic>, i));
+        }
+        return result;
+        } catch (e) {
         print('Error during parsing: $e');
         throw Exception('Failed to parse weather data');
       }
