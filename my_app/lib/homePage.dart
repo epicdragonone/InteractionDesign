@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CragPage(cragName: "Sigma",title: "title",)),
+                  MaterialPageRoute(builder: (context) => CragPage(cragName: "crag_a",title: "title",)),
                 );
               },
               child: const Image(
