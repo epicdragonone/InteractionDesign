@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -13,6 +12,7 @@ class Weather {
   final double windKph;
   final int humidity;
   final double feelslikeC;
+  final String iconUrl; //add this to show weather icon
 
   const Weather({
     required this.localTime,
@@ -24,6 +24,7 @@ class Weather {
     required this.windKph,
     required this.humidity,
     required this.feelslikeC,
+    required this.iconUrl,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
@@ -38,6 +39,7 @@ class Weather {
         windKph: (firstHour['wind_kph'] as num).toDouble(),
         humidity: firstHour['humidity'] as int,
         feelslikeC: (firstHour['feelslike_c'] as num).toDouble(),
+        iconUrl: 'https:${firstHour['condition']['icon']}', //icon
     );
   }
   factory Weather.fromJsonCurrent(Map<String, dynamic> json) {
@@ -51,6 +53,7 @@ class Weather {
       windKph: (json['current']['wind_kph'] as num).toDouble(),
       humidity: json['current']['humidity'] as int,
       feelslikeC: (json['current']['feelslike_c'] as num).toDouble(),
+      iconUrl: 'https:${json['current']['condition']['icon']}', //icon
     );
   }
     factory Weather.fromJsonDay(Map<String, dynamic> json, int hour) {
@@ -65,6 +68,7 @@ class Weather {
         windKph: (firstHour['wind_kph'] as num).toDouble(),
         humidity: firstHour['humidity'] as int,
         feelslikeC: (firstHour['feelslike_c'] as num).toDouble(),
+        iconUrl: 'https:${firstHour['condition']['icon']}', //icon:
     );
   }
 }

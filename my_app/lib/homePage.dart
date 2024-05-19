@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/cragPage.dart';
 
-class HomePage extends StatelessWidget { // Need to change this to StatefulWidget. 
-  const HomePage({super.key}); // But then I need to add a create() method. Will look into it later. (use filterCrag as template for this kinda)
+class HomePage extends StatefulWidget {
+  final String location;
+
+  const HomePage({Key? key, required this.location}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
   /*
   String cragName = "";
   String difficulty = "";
@@ -19,7 +27,7 @@ class HomePage extends StatelessWidget { // Need to change this to StatefulWidge
   String echoCrag = ""; 
   */
 
-
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,16 +95,22 @@ class HomePage extends StatelessWidget { // Need to change this to StatefulWidge
               borderRadius: BorderRadius.zero,
               border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
             ),
-            child:
-
-                ///***If you have exported images you must have to copy those images in assets/images directory.
-                const Image(
-              image: NetworkImage("https://thumbs.dreamstime.com/b/summit-helm-crag-19175355.jpg"),
-              height: 100,
-              width: 140,
-              fit: BoxFit.cover,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CragPage(cragName: "Sigma",title: "title",)),
+                );
+              },
+              child: const Image(
+                image: NetworkImage("https://thumbs.dreamstime.com/b/summit-helm-crag-19175355.jpg"),
+                height: 100,
+                width: 140,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
+          
           Container(
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.all(0),
