@@ -4,13 +4,22 @@ import 'filterPage.dart';
 import 'searchMenu.dart';
 import 'cragPage.dart';
 import 'toggleButton.dart';
+import 'weatherGetter.dart';
 
 void main() {
-  runApp(const MyApp());
+  final List<String> defaultLocationList = [
+  'Istanbul', 'London', 'Dubai', 'Antalya', 'Paris', 'Hong Kong'];
+  /*
+  the default location list for search menu and home page, the home page will shown the first one
+  */
+
+  runApp(MyApp(defaultLocationList: defaultLocationList));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final List<String> defaultLocationList;
+
+  const MyApp({Key? key, required this.defaultLocationList}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -18,26 +27,28 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isSideBarExpanded = false;
-  bool isSearch = true; //true for search, false for filter
+  bool isSearch = true;
   final double sideBarWidth = 0.8;
 
-  List<String> searchMenuData = [
-      'Crag01',
-      'Crag02',
-      'Crag03',
-      'Crag04',
-      'Crag05',
-      'Crag06',
-      'Crag07',
-      'Crag08',
-      'Crag09',
-      'Crag10',
-      'Crag11',
-      'Crag12',
-      'Crag13',
-      'Crag14',
-      'Crag15',
-    ];
+  List<Weather> defaultWeatherData = []; //the intialisation should consider time
+  List<Weather> searchMenuData = []; 
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDefaultWeatherData(widget.defaultLocationList); 
+    updateSearchMenuData(defaultWeatherData);
+  }
+
+  Future<void> fetchDefaultWeatherData(List<String> locations) async {
+    final api = WeatherApi();
+    for (String location in locations) {
+      final weather = await api.fetchWeather(location);
+      setState(() {
+        defaultWeatherData.add(weather);
+      });
+    }
+  }
 
   void toggleSideBar() {
     setState(() {
@@ -51,80 +62,89 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  //filter page update search menu's data
-  void updateSearchMenuData(List<String> newData) {
+  void updateSearchMenuData(List<Weather> weatherData) {
     setState(() {
-      searchMenuData = newData;
+      searchMenuData = weatherData;
     });
   }
 
-  void handleFilterApply(List<String> filtered) {
+  void handleFilterApply(List<Weather> filtered) {
     updateSearchMenuData(filtered);
     toggleSearchFilter();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Interaction Design Group 6',
       theme: ThemeData(
-       
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-            home:LayoutBuilder(
-          builder: (context, constraints) {
-            double screenWidth = constraints.maxWidth;
-            double screenHeight = constraints.maxHeight;
+      home: LayoutBuilder(
+        builder: (context, constraints) {
+          double screenWidth = constraints.maxWidth;
+          double screenHeight = constraints.maxHeight;
 
-            // Calculate the desired width and height for a 16:9 aspect ratio
-            double desiredWidth = screenWidth;
-            double desiredHeight = screenWidth * (9 / 16);
-            
-            // Use AspectRatio widget to enforce the 16:9 aspect ratio
+          double desiredWidth = screenWidth;
+          double desiredHeight = screenWidth * (9 / 16);
+
           return Container(
             width: desiredWidth,
             height: desiredHeight,
-            child: 
-              Stack(
-                children:[
-                  const HomePage(), 
+            child: Stack(
+              children: [
+                HomePage(location: widget.defaultLocationList[0]),
 
-          if (isSideBarExpanded && isSearch) //expand search menu
-                    Positioned(
-                      child: SearchMenu(
-                        width: screenWidth * sideBarWidth,
-                        data: searchMenuData,
-                        onFilterButtonPressed: toggleSearchFilter,
-                      ),
-                    ),
+                // Display weather icons for default locations
+                // for (int i = 0; i < defaultWeatherData.length; i++)
+                //   Positioned(
+                //     top: 20,
+                //     left: 20 + (i * 100), // Adjust position as needed
+                //     child: Column(
+                //       children: [
+                //         Image.network(
+                //           defaultWeatherData[i].iconUrl,
+                //           width: 64,
+                //           height: 64,
+                //         ),
+                //         Text(
+                //           'Weather: ${defaultWeatherData[i].tempC}°C, ${defaultWeatherData[i].conditionText}',
+                //           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
 
-          if (isSideBarExpanded && !isSearch) //expand filter page
-                    Positioned(
-                        child: FilterPage(
-                          width: screenWidth * sideBarWidth,
-                          onApplyButtonPressed: handleFilterApply
-                        ),
-                    ),
-
-            
-          Positioned(
-                    left: screenWidth * (isSideBarExpanded ? sideBarWidth : 0) - 10, // Adjust positioning
-                    top: screenHeight * 0.5, // Adjust positioning
-                    child: ToggleButton(
-                      
-                      selected: isSideBarExpanded,
-                      onPressed: toggleSideBar,
+                if (isSideBarExpanded && isSearch)
+                  Positioned(
+                    child: SearchMenu(
+                      width: screenWidth * sideBarWidth,
+                      data: searchMenuData, // Pass weather data instead of strings
+                      onFilterButtonPressed: toggleSearchFilter,
                     ),
                   ),
-              ]
-              )
-              );
-              }
-              )
-        );
+
+                if (isSideBarExpanded && !isSearch)
+                  Positioned(
+                    child: FilterPage(
+                      width: screenWidth * sideBarWidth,
+                      onApplyButtonPressed: handleFilterApply,
+                    ),
+                  ),
+                Positioned(
+                  left: screenWidth * (isSideBarExpanded ? sideBarWidth : 0) - 10,
+                  top: screenHeight * 0.5,
+                  child: ToggleButton(
+                    selected: isSideBarExpanded,
+                    onPressed: toggleSideBar,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }
-
-

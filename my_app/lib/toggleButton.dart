@@ -20,9 +20,7 @@ class _ToggleButtonState extends State<ToggleButton> {
 
     return GestureDetector(
       onTap: () {
-   
         widget.onPressed?.call(); // Invoke the onPressed callback
-        // print(selected);
       },
       child: Align(
         alignment: Alignment.centerLeft,
