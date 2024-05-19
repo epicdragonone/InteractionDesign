@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> fetchDefaultWeatherData(List<String> locations) async {
     final api = WeatherApi();
     for (String location in locations) {
-      final weather = await api.fetchWeather(location);
+      final weather = await api.fetchCurrentWeather(location);
       setState(() {
         defaultWeatherData.add(weather);
       });
