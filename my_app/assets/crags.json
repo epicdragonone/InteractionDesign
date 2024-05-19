@@ -2,120 +2,105 @@
     "crags": {
         "crag_a": {
             "name": "Crag A",
-            "longitude": 54.1,
-            "langitude": 11.3,
+            "location": "AB1",
             "difficultyMin": 5,
             "difficultyMax": 10.5,
             "rockMaterial": "limestone"
         },
         "crag_b": {
             "name": "Crag B",
-            "longitude": 9.1,
-            "langitude": 20.315,
+            "location": "BC2",
             "difficultyMin": 4.5,
             "difficultyMax": 9.75,
             "rockMaterial": "granite"
         },
         "crag_c": {
             "name": "Crag C",
-            "longitude": 23.1,
-            "langitude": 61.3,
+            "location": "CD3",
             "difficultyMin": 6,
             "difficultyMax": 12.25,
             "rockMaterial": "sandstone"
         },
         "crag_d": {
             "name": "Crag D",
-            "longitude": 40.7,
-            "langitude": 74.0,
+            "location": "DE4",
             "difficultyMin": 7.25,
             "difficultyMax": 14,
             "rockMaterial": "gneiss"
         },
         "crag_e": {
             "name": "Crag E",
-            "longitude": 34.0522,
-            "langitude": -118.2437,
+            "location": "EF5",
             "difficultyMin": 4.75,
             "difficultyMax": 13,
             "rockMaterial": "basalt"
         },
         "crag_f": {
             "name": "Crag F",
-            "longitude": 48.8566,
-            "langitude": 2.3522,
+            "location": "FG6",
             "difficultyMin": 8,
             "difficultyMax": 15,
             "rockMaterial": "limestone"
         },
         "crag_g": {
             "name": "Crag G",
-            "longitude": 35.6895,
-            "langitude": 139.6917,
+            "location": "GH7",
             "difficultyMin": 5.5,
             "difficultyMax": 11.75,
             "rockMaterial": "granite"
         },
         "crag_h": {
             "name": "Crag H",
-            "longitude": -33.8688,
-            "langitude": 151.2093,
+            "location": "HI8",
             "difficultyMin": 6.25,
             "difficultyMax": 14.5,
             "rockMaterial": "gneiss"
         },
         "crag_i": {
             "name": "Crag I",
-            "longitude": 51.5074,
-            "langitude": -0.1278,
+            "location": "IJ9",
             "difficultyMin": 4,
             "difficultyMax": 8.75,
             "rockMaterial": "sandstone"
         },
         "crag_j": {
             "name": "Crag J",
-            "longitude": -37.8136,
-            "langitude": 144.9631,
+            "location": "JK1",
             "difficultyMin": 6.75,
             "difficultyMax": 13.25,
             "rockMaterial": "basalt"
         },
         "crag_k": {
             "name": "Crag K",
-            "longitude": 55.7558,
-            "langitude": 37.6173,
+            "location": "KL2",
             "difficultyMin": 7,
             "difficultyMax": 14.75,
             "rockMaterial": "limestone"
         },
         "crag_l": {
             "name": "Crag L",
-            "longitude": 39.9042,
-            "langitude": 116.4074,
+            "location": "LM3",
             "difficultyMin": 5.25,
             "difficultyMax": 11.5,
             "rockMaterial": "granite"
         },
         "crag_m": {
             "name": "Crag M",
-            "longitude": 19.4326,
-            "langitude": -99.1332,
+            "location": "MN4",
             "difficultyMin": 4.5,
             "difficultyMax": 9.25,
             "rockMaterial": "gneiss"
         },
         "crag_n": {
             "name": "Crag N",
-            "longitude": 13.7563,
-            "langitude": 100.5018,
+            "location": "NO5",
             "difficultyMin": 8,
             "difficultyMax": 12.5,
             "rockMaterial": "sandstone"
         },
         "crag_o": {
             "name": "Crag O",
-            "longitude": -22.9068,
-            "langitude": -43.1729,
+            "location": "OP6",
             "difficultyMin": 6.5,
             "difficultyMax": 13.75,
             "rockMaterial": "basalt"
