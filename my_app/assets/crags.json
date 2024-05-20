@@ -3,106 +3,106 @@
         "crag_a": {
             "name": "Crag A",
             "location": "AB1",
-            "difficultyMin": 5,
-            "difficultyMax": 10.5,
+            "difficultyMin": 20,
+            "difficultyMax": 42,
             "rockMaterial": "limestone"
         },
         "crag_b": {
             "name": "Crag B",
             "location": "BC2",
-            "difficultyMin": 4.5,
-            "difficultyMax": 9.75,
+            "difficultyMin": 18,
+            "difficultyMax": 39,
             "rockMaterial": "granite"
         },
         "crag_c": {
             "name": "Crag C",
             "location": "CD3",
-            "difficultyMin": 6,
-            "difficultyMax": 12.25,
+            "difficultyMin": 24,
+            "difficultyMax": 49,
             "rockMaterial": "sandstone"
         },
         "crag_d": {
             "name": "Crag D",
             "location": "DE4",
-            "difficultyMin": 7.25,
-            "difficultyMax": 14,
+            "difficultyMin": 29,
+            "difficultyMax": 56,
             "rockMaterial": "gneiss"
         },
         "crag_e": {
             "name": "Crag E",
             "location": "EF5",
-            "difficultyMin": 4.75,
-            "difficultyMax": 13,
+            "difficultyMin": 19,
+            "difficultyMax": 52,
             "rockMaterial": "basalt"
         },
         "crag_f": {
             "name": "Crag F",
             "location": "FG6",
-            "difficultyMin": 8,
-            "difficultyMax": 15,
+            "difficultyMin": 32,
+            "difficultyMax": 60,
             "rockMaterial": "limestone"
         },
         "crag_g": {
             "name": "Crag G",
             "location": "GH7",
-            "difficultyMin": 5.5,
-            "difficultyMax": 11.75,
+            "difficultyMin": 22,
+            "difficultyMax": 47,
             "rockMaterial": "granite"
         },
         "crag_h": {
             "name": "Crag H",
             "location": "HI8",
-            "difficultyMin": 6.25,
-            "difficultyMax": 14.5,
+            "difficultyMin": 25,
+            "difficultyMax": 58,
             "rockMaterial": "gneiss"
         },
         "crag_i": {
             "name": "Crag I",
             "location": "IJ9",
-            "difficultyMin": 4,
-            "difficultyMax": 8.75,
+            "difficultyMin": 16,
+            "difficultyMax": 35,
             "rockMaterial": "sandstone"
         },
         "crag_j": {
             "name": "Crag J",
             "location": "JK1",
-            "difficultyMin": 6.75,
-            "difficultyMax": 13.25,
+            "difficultyMin": 27,
+            "difficultyMax": 53,
             "rockMaterial": "basalt"
         },
         "crag_k": {
             "name": "Crag K",
             "location": "KL2",
-            "difficultyMin": 7,
-            "difficultyMax": 14.75,
+            "difficultyMin": 28,
+            "difficultyMax": 59,
             "rockMaterial": "limestone"
         },
         "crag_l": {
             "name": "Crag L",
             "location": "LM3",
-            "difficultyMin": 5.25,
-            "difficultyMax": 11.5,
+            "difficultyMin": 21,
+            "difficultyMax": 46,
             "rockMaterial": "granite"
         },
         "crag_m": {
             "name": "Crag M",
             "location": "MN4",
-            "difficultyMin": 4.5,
-            "difficultyMax": 9.25,
+            "difficultyMin": 18,
+            "difficultyMax": 37,
             "rockMaterial": "gneiss"
         },
         "crag_n": {
             "name": "Crag N",
             "location": "NO5",
-            "difficultyMin": 8,
-            "difficultyMax": 12.5,
+            "difficultyMin": 32,
+            "difficultyMax": 50,
             "rockMaterial": "sandstone"
         },
         "crag_o": {
             "name": "Crag O",
             "location": "OP6",
-            "difficultyMin": 6.5,
-            "difficultyMax": 13.75,
+            "difficultyMin": 26,
+            "difficultyMax": 55,
             "rockMaterial": "basalt"
         }
     }
