@@ -144,7 +144,7 @@ class TemperatureSlider extends StatefulWidget {
 }
 
 class _TemperatureSliderState extends State<TemperatureSlider> {
-  RangeValues _currentTemperatureRange = const RangeValues(0, 45);
+  RangeValues _currentTemperatureRange = const RangeValues(-10, 45);
 
   @override
   Widget build(BuildContext context) {
