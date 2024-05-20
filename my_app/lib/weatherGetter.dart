@@ -12,6 +12,7 @@ class Weather {
   final double windKph;
   final int humidity;
   final double feelslikeC;
+  final double precip_mm;
   final String iconUrl; //add this to show weather icon
 
   const Weather({
@@ -24,6 +25,7 @@ class Weather {
     required this.windKph,
     required this.humidity,
     required this.feelslikeC,
+    required this.precip_mm,
     required this.iconUrl,
   });
 
@@ -39,6 +41,7 @@ class Weather {
         windKph: (firstHour['wind_kph'] as num).toDouble(),
         humidity: firstHour['humidity'] as int,
         feelslikeC: (firstHour['feelslike_c'] as num).toDouble(),
+        precip_mm: (firstHour["precip_mm"] as num).toDouble(),
         iconUrl: 'https:${firstHour['condition']['icon']}', //icon
     );
   }
@@ -53,6 +56,7 @@ class Weather {
       windKph: (json['current']['wind_kph'] as num).toDouble(),
       humidity: json['current']['humidity'] as int,
       feelslikeC: (json['current']['feelslike_c'] as num).toDouble(),
+      precip_mm: (json['current']['precip_mm'] as num).toDouble(),
       iconUrl: 'https:${json['current']['condition']['icon']}', //icon
     );
   }
@@ -68,6 +72,7 @@ class Weather {
         windKph: (firstHour['wind_kph'] as num).toDouble(),
         humidity: firstHour['humidity'] as int,
         feelslikeC: (firstHour['feelslike_c'] as num).toDouble(),
+        precip_mm: (firstHour["precip_mm"] as num).toDouble(),
         iconUrl: 'https:${firstHour['condition']['icon']}', //icon:
     );
   }
