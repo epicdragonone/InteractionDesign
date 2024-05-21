@@ -56,7 +56,7 @@ class CragData {
 
   Map<dynamic, dynamic> get() {
     Map<dynamic, dynamic> v =  json.decode(new File("././assets/crags.json").readAsStringSync());
-    print(v);
+    //print(v);
     return v["crags"];
   }
 

@@ -33,7 +33,7 @@ class _SearchMenuState extends State<SearchMenu> {
   void initState() {
     super.initState();
     _filteredData = widget.data;
-    print(_filteredData);
+    //print(_filteredData);
     _searchController.addListener(_performSearch);
   }
 
@@ -128,7 +128,7 @@ class _SearchMenuState extends State<SearchMenu> {
                         child: Padding(
                           padding: EdgeInsets.only(left: listViewWidth*0.02), //Padding relative to the ListView width
                           child: Text(
-                            _filteredData[index].weather.locationName, // Display name
+                            _filteredData[index].cragName, // Display name
                             style: const TextStyle(color: Colors.white, fontSize:18,fontWeight: FontWeight.normal),
                           ),
                         ),

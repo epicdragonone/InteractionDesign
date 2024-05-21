@@ -13,9 +13,10 @@ class CragCurrentWeather {
   Future<void> initialize() async {
     final api = WeatherApi();
     Map<String, dynamic> fetchedCragInfo = CragData().get()[cragName];
-    cragInfo = fetchedCragInfo;
+    this.cragInfo = fetchedCragInfo;
     String location = fetchedCragInfo["location"];
     Weather fetchedWeather = await api.fetchCurrentWeather(location);
-    weather = fetchedWeather;
+    this.weather = fetchedWeather;
+    print(this);
   }
 }

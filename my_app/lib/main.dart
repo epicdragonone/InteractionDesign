@@ -1,56 +1,70 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'homePage.dart';
 import 'filterPage.dart';
 import 'searchMenu.dart';
-// import 'cragPage.dart';
+import 'cragPage.dart';
 import 'toggleButton.dart';
-// import 'weatherGetter.dart';
-// import 'cragData.dart';
+import 'weatherGetter.dart';
+import 'cragData.dart';
 import 'cragCurrentWeather.dart';
 
 void main() {
-  List<String> defaultCrags = ["Crag A","Crag B","Crag C","Crag D","Crag E","Crag F","Crag G","Crag H","Crag I","Crag J","Crag K","Crag L","Crag M","Crag N","Crag O"];
+  List<String> defaultCrags = ["crag_a", "crag_b", "crag_c", "crag_d", "crag_e", "crag_f", "crag_g", "crag_h", "crag_i", "crag_j", "crag_k", "crag_l", "crag_m", "crag_n", "crag_o"];
   runApp(MyApp(defaultCrags:defaultCrags));
 
 }
 
 class MyApp extends StatefulWidget {
-  final List<String> defaultCrags = [];
-  MyApp({Key? key,required defaultCrags}) : super(key: key);
+  final List<String> defaultCrags;
+  MyApp({Key? key,required this.defaultCrags}) : super(key: key);
+
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
+
   bool isSideBarExpanded = false;
   bool isSearch = true;
   final double sideBarWidth = 0.8;
 
 
-  void initDefaultData(defaultCrags) async{
+  Future<List<CragCurrentWeather>> initDefaultData(defaultCrags) async{
+    List<CragCurrentWeather> cragWeatherList = [];
     for (String cragName in defaultCrags) {
-      setState(() {
-        defaultData.add(CragCurrentWeather(cragName));  
+      print(cragName);
+      setState(()  {
+        CragCurrentWeather cragWeather = CragCurrentWeather(cragName);
+        cragWeather.initialize();
+        cragWeatherList.add(cragWeather);
       });
     }
+    return cragWeatherList;
   }
+
+  Future<void> initializeData() async{
+    print(widget.defaultCrags);
+    defaultData = await initDefaultData(widget.defaultCrags);
+    updateSearchMenuData(defaultData);
+  }
+
 
   List<CragCurrentWeather> defaultData = []; //the intialisation should consider time
 
   List<CragCurrentWeather> searchMenuData = []; 
 
   @override
-  void initState() {
+    void initState() {
     super.initState();
-    initDefaultData(widget.defaultCrags); 
+    initializeData(); 
     updateSearchMenuData(defaultData);
   }
 
-  Future<void> fetchDefaultWeatherData(List<String> locations) async {
-    
-  }
-
+  
   void toggleSideBar() {
     setState(() {
       isSideBarExpanded = !isSideBarExpanded;

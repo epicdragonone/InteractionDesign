@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/cragCurrentWeather.dart';
 
-enum RainIntensity { dry, drizzle, heavy, storm }
+enum RainIntensity { dry, drizzle, moderate, heavy }
 
 class FilterPage extends StatefulWidget {
   final Function(List<CragCurrentWeather>) onApplyButtonPressed;
@@ -46,13 +46,13 @@ class _FilterPageState extends State<FilterPage> {
           if (cragWeather.weather.precip_mm == 0) score += 10;
           break;
         case RainIntensity.drizzle:
-          if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 4) score += 10;
+          if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 10;
+          break;
+        case RainIntensity.moderate:
+          if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 10;
           break;
         case RainIntensity.heavy:
-          if (cragWeather.weather.precip_mm > 4 && cragWeather.weather.precip_mm <= 8) score += 10;
-          break;
-        case RainIntensity.storm:
-          if (cragWeather.weather.precip_mm > 8) score += 10;
+          if (cragWeather.weather.precip_mm > 4) score += 10;
           break;
       }
 
@@ -65,12 +65,11 @@ class _FilterPageState extends State<FilterPage> {
           cragWeather.weather.windKph <= windSpeedRange.end) {
         score += 10;
       }
-
+    print(cragWeather.weather.precip_mm);
       return score;
     }
 
     dataCopy.sort((a, b) => calculateScore(b).compareTo(calculateScore(a)));
-
     filtered_data.clear();
     filtered_data.addAll(dataCopy);
   }
