@@ -12,13 +12,15 @@ import 'cragCurrentWeather.dart';
 
 void main() {
   List<String> defaultCrags = ["crag_a", "crag_b", "crag_c", "crag_d", "crag_e", "crag_f", "crag_g", "crag_h", "crag_i", "crag_j", "crag_k", "crag_l", "crag_m", "crag_n", "crag_o"];
-  runApp(MyApp(defaultCrags:defaultCrags));
+  String defaultHomePageCrag = "crag_a";
+  runApp(MyApp(defaultCrags:defaultCrags, defaultHomePageCrag: defaultHomePageCrag,));
 
 }
 
 class MyApp extends StatefulWidget {
   final List<String> defaultCrags;
-  MyApp({Key? key,required this.defaultCrags}) : super(key: key);
+  final String defaultHomePageCrag;
+  MyApp({Key? key,required this.defaultCrags, required this.defaultHomePageCrag}) : super(key: key);
 
 
   @override
@@ -31,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   bool isSideBarExpanded = false;
   bool isSearch = true;
   final double sideBarWidth = 0.8;
-
+  String homePageCrag = '';
 
   Future<List<CragCurrentWeather>> initDefaultData(defaultCrags) async{
     List<CragCurrentWeather> cragWeatherList = [];
@@ -62,6 +64,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initializeData(); 
     updateSearchMenuData(defaultData);
+    updateHomePageCrag(widget.defaultHomePageCrag);
   }
 
   
@@ -88,6 +91,10 @@ class _MyAppState extends State<MyApp> {
     toggleSearchFilter();
   }
 
+  void updateHomePageCrag(String newCragName){
+    homePageCrag = newCragName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -109,7 +116,7 @@ class _MyAppState extends State<MyApp> {
             height: desiredHeight,
             child: Stack(
               children: [
-                HomePage(location:"Cambridge"),
+                HomePage(defaultCrag:homePageCrag),
 
                 // Display weather icons for default locations
                 // for (int i = 0; i < defaultWeatherData.length; i++)

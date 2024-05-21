@@ -7,8 +7,9 @@ class SearchMenu extends StatefulWidget {
   final double width; // Width parameter
   final List<CragCurrentWeather> data;
   final VoidCallback onFilterButtonPressed;
+  final Function(String newCragName) onCragSelected;
 
-  const SearchMenu({Key? key, required this.width, required this.data, required this.onFilterButtonPressed}) : super(key: key);
+  const SearchMenu({Key? key, required this.width, required this.data, required this.onFilterButtonPressed, required this.onCragSelected}) : super(key: key);
 
   @override
   State<SearchMenu> createState() => _SearchMenuState();
@@ -60,6 +61,10 @@ class _SearchMenuState extends State<SearchMenu> {
       _isLoading = false;
       print(_isLoading);
     });
+  }
+
+  void _onCragTap(String newCragName){
+    widget.onCragSelected(newCragName);
   }
 
   @override
@@ -117,6 +122,7 @@ class _SearchMenuState extends State<SearchMenu> {
           return ListView.builder(
             itemCount: _filteredData.length,
             itemBuilder: (context, index) => ListTile(
+              onTap: ()=> _onCragTap(_filteredData[index].cragName),
               title: FractionallySizedBox(
                 widthFactor: 1.0, //row takes the full width
                 child: Row(
