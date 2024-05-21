@@ -93,6 +93,7 @@ class _MyAppState extends State<MyApp> {
 
   void updateHomePageCrag(String newCragName){
     homePageCrag = newCragName;
+    print(homePageCrag);
   }
 
   @override
