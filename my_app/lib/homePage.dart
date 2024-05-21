@@ -50,12 +50,13 @@ class _HomePageState extends State<HomePage> {
   double heatParam = 0; // Done
   double windParam = 0; // Done
   double rainParam = 0; // Done
+  String trueCragName = "";
 
 
   void setup(String cragName) {
-    
-    Map<String, dynamic> cragInfo = CragData().get()[cragName];
     print(cragName);
+    Map<String, dynamic> cragInfo = CragData().get()[cragName];
+    this.trueCragName = cragName;
     this.cragName = cragInfo["name"];
     difficulty = '${CragData().parseDifficulty(cragInfo["difficultyMin"])}-${CragData().parseDifficulty(cragInfo["difficultyMax"])}';
     location = cragInfo["location"];
@@ -235,7 +236,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CragPage(cragName: "crag_a",title: "title",)),
+                  MaterialPageRoute(builder: (context) => CragPage(cragName: trueCragName,title: "title",)),
                 );
               },
               child: const Image(
