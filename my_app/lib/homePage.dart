@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CragPage(cragName: "stanage_edge",title: "title",)),
+                  MaterialPageRoute(builder: (context) => CragPage(cragName: cragName,title: "title",)),
                 );
               },
               child: const Image(
