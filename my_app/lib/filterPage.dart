@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/cragCurrentWeather.dart';
-import 'package:my_app/weatherGetter.dart';
 
 enum RainIntensity { dry, drizzle, heavy, storm }
 
@@ -9,12 +8,58 @@ class FilterPage extends StatelessWidget {
   final double width;
   final List<CragCurrentWeather>data;
   final List<CragCurrentWeather>filtered_data;
-  const FilterPage({Key? key,required this.width, required this.data, required this.onApplyButtonPressed}) : super(key: key);
+  const FilterPage({Key? key,required this.width, required this.data, required this.onApplyButtonPressed, required this.filtered_data}) : super(key: key);
 
-  void setFilteredData(List<CragCurrentWeather> data){
-      ...
+  void setFilteredData(List<CragCurrentWeather> data,  ){
       
+    // Get current filter values from the state of each slider
+  RainIntensity rainIntensity = _rainIntensitySliderState._currentIntensity;
+  RangeValues temperatureRange = _temperatureSliderState._currentTemperatureRange;
+  RangeValues windSpeedRange = _windSpeedSliderState._currentWindSpeedRange;
+
+  // Create a copy of the input data to avoid modifying the original list
+  List<CragCurrentWeather> dataCopy = List.from(data);
+
+  // Scoring function
+  double calculateScore(CragCurrentWeather cragWeather) {
+    double score = 0;
+
+    // Score for rain intensity
+    switch (rainIntensity) {
+      case RainIntensity.dry:
+        if (cragWeather.weather.precip_mm == 0) score += 10;
+        break;
+      case RainIntensity.drizzle:
+        if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 4) score += 10;
+        break;
+      case RainIntensity.heavy:
+        if (cragWeather.weather.precip_mm > 4 && cragWeather.weather.precip_mm <= 8) score += 10;
+        break;
+      case RainIntensity.storm:
+        if (cragWeather.weather.precip_mm > 8) score += 10;
+        break;
+    }
+
+    // Score for temperature range
+    if (cragWeather.weather.tempC >= temperatureRange.start && cragWeather.weather.tempC <= temperatureRange.end) {
+      score += 10;
+    }
+
+    // Score for wind speed range
+    if (cragWeather.weather.windKph >= windSpeedRange.start && cragWeather.weather.windKph <= windSpeedRange.end) {
+      score += 10;
+    }
+
+    return score;
   }
+
+  // Apply the scoring function to each crag and sort the list based on the scores
+  dataCopy.sort((a, b) => calculateScore(b).compareTo(calculateScore(a)));
+
+  // Update the filtered data list
+  filtered_data.clear();
+  filtered_data.addAll(dataCopy);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +104,7 @@ class FilterPage extends StatelessWidget {
                   // Pass filter criteria back to the parent widget
                   //For now just pass an empty one
                   // final List<Weather> filtered = []; 
-                  setFilteredData(data);
+                  setFilteredData(data,);
                   onApplyButtonPressed(filtered_data);
                 },
                 child: Text('Apply'), // Add this child parameter
@@ -188,7 +233,7 @@ class WindSpeedSlider extends StatefulWidget {
 }
 
 class _WindSpeedSliderState extends State<WindSpeedSlider> {
-  RangeValues _currentWindSpeedRange = const RangeValues(0, 70);
+  RangeValues _currentWindSpeedRange = const RangeValues(0, 100);
 
   @override
   Widget build(BuildContext context) {
@@ -198,11 +243,11 @@ class _WindSpeedSliderState extends State<WindSpeedSlider> {
         RangeSlider(
           values: _currentWindSpeedRange,
           min: 0,
-          max: 70,
-          divisions: 70,
+          max: 100,
+          divisions: 100,
           labels: RangeLabels(
-            _currentWindSpeedRange.start.round().toString() + ' mph',
-            _currentWindSpeedRange.end.round().toString() + ' mph',
+            _currentWindSpeedRange.start.round().toString() + ' kph',
+            _currentWindSpeedRange.end.round().toString() + ' kph',
           ),
           onChanged: (RangeValues values) {
             setState(() {
