@@ -140,6 +140,7 @@ class _HomePageState extends State<HomePage> {
       if (rainedXHoursAgo == 11) {
         rainedXHoursAgoOutput = "Has not rained in over a day";
       } else {
+        rainedXHoursAgo += currTime;
         rainedXHoursAgoOutput = "Rained $rainedXHoursAgo hours ago";
       }
 
