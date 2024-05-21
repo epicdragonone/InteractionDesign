@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/weatherGetter.dart';
+import 'package:my_app/cragCurrentWeather.dart';
+// import 'package:my_app/weatherGetter.dart';
 
 class SearchMenu extends StatefulWidget {
 
   final double width; // Width parameter
-  final List<Weather> data;
+  final List<CragCurrentWeather> data;
   final VoidCallback onFilterButtonPressed;
+  final Function(String newCragName) onCragSelected;
 
-  const SearchMenu({Key? key, required this.width, required this.data, required this.onFilterButtonPressed}) : super(key: key);
+  const SearchMenu({Key? key, required this.width, required this.data, required this.onFilterButtonPressed, required this.onCragSelected}) : super(key: key);
 
   @override
   State<SearchMenu> createState() => _SearchMenuState();
@@ -15,25 +17,17 @@ class SearchMenu extends StatefulWidget {
 
 class _SearchMenuState extends State<SearchMenu> {
 
-  bool _isExpanded = false;
-
-  void _toggleMenu() {
-    setState(() {
-      _isExpanded = !_isExpanded;
-    });
-  }
 
   final TextEditingController _searchController = TextEditingController();
   
-  List<Weather> _filteredData = [];
+  List<CragCurrentWeather> _filteredData = [];
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _filteredData = widget.data;
-    print(_filteredData);
-    print("donw!!!");
+    //print(_filteredData);
     _searchController.addListener(_performSearch);
   }
 
@@ -53,13 +47,17 @@ class _SearchMenuState extends State<SearchMenu> {
 
     setState(() {
       _filteredData = widget.data
-          .where((element) => element.locationName //display name
+          .where((element) => element.weather.locationName //display name
               .toLowerCase()
               .contains(_searchController.text.toLowerCase()))
           .toList();
       _isLoading = false;
       print(_isLoading);
     });
+  }
+
+  void _onCragTap(String newCragName){
+    widget.onCragSelected(newCragName);
   }
 
   @override
@@ -117,6 +115,7 @@ class _SearchMenuState extends State<SearchMenu> {
           return ListView.builder(
             itemCount: _filteredData.length,
             itemBuilder: (context, index) => ListTile(
+              onTap: () => _onCragTap(_filteredData[index].cragName),
               title: FractionallySizedBox(
                 widthFactor: 1.0, //row takes the full width
                 child: Row(
@@ -128,7 +127,7 @@ class _SearchMenuState extends State<SearchMenu> {
                         child: Padding(
                           padding: EdgeInsets.only(left: listViewWidth*0.02), //Padding relative to the ListView width
                           child: Text(
-                            _filteredData[index].locationName, // Display name
+                            _filteredData[index].cragName, // Display name
                             style: const TextStyle(color: Colors.white, fontSize:18,fontWeight: FontWeight.normal),
                           ),
                         ),
@@ -141,7 +140,7 @@ class _SearchMenuState extends State<SearchMenu> {
                         child: Padding(
                           padding: EdgeInsets.only(right: listViewWidth*0.4), //Padding relative to the ListView width
                           child: Image.network(
-                            _filteredData[index].iconUrl,
+                            _filteredData[index].weather.iconUrl,
                             width: 35,
                             height: 35,
                           ),

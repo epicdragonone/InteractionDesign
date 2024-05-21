@@ -1,169 +1,224 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/weatherGetter.dart';
-enum RainIntensity { dry, drizzle, heavy, storm }
+import 'package:my_app/cragCurrentWeather.dart';
 
-class FilterPage extends StatelessWidget {
-  final Function(List<Weather>) onApplyButtonPressed;
+enum RainIntensity { dry, drizzle, moderate, heavy }
+
+class FilterPage extends StatefulWidget {
+  final Function(List<CragCurrentWeather>) onApplyButtonPressed;
   final double width;
-  const FilterPage({Key? key,required this.width, required this.onApplyButtonPressed}) : super(key: key);
+  final List<CragCurrentWeather> data;
 
-  
+  const FilterPage({
+    Key? key,
+    required this.width,
+    required this.data,
+    required this.onApplyButtonPressed,
+  }) : super(key: key);
+
+  @override
+  _FilterPageState createState() => _FilterPageState();
+}
+
+class _FilterPageState extends State<FilterPage> {
+  RainIntensity _currentRainIntensity = RainIntensity.dry;
+  RangeValues _currentTemperatureRange = const RangeValues(-10, 45);
+  RangeValues _currentWindSpeedRange = const RangeValues(0, 100);
+
+  final List<CragCurrentWeather> filtered_data = [];
+
+  void setFilteredData(
+    List<CragCurrentWeather> data,
+    RainIntensity rainIntensity,
+    RangeValues temperatureRange,
+    RangeValues windSpeedRange,
+  ) {
+    //test is filtering function works
+    print(rainIntensity);
+    print(temperatureRange.start.toString()+", "+temperatureRange.end.toString());
+    print(windSpeedRange.start.toString()+", "+windSpeedRange.end.toString());
+    List<CragCurrentWeather> dataCopy = List.from(data);
+
+    double calculateScore(CragCurrentWeather cragWeather) {
+      double score = 0;
+
+      switch (rainIntensity) {
+        case RainIntensity.dry:
+          if (cragWeather.weather.precip_mm == 0) score += 10;
+          else if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 6;
+          else if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 3;
+          else if (cragWeather.weather.precip_mm > 4) score += 0;
+          break;
+        case RainIntensity.drizzle:
+          if (cragWeather.weather.precip_mm == 0) score += 2;
+          else if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 10;
+          else if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 5;
+          else if (cragWeather.weather.precip_mm > 4) score += 2;
+          break;
+        case RainIntensity.moderate:
+          if (cragWeather.weather.precip_mm == 0) score += 0;
+          else if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 5;
+          else if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 10;
+          else if (cragWeather.weather.precip_mm > 4) score += 5;          
+          break;
+        case RainIntensity.heavy:
+          if (cragWeather.weather.precip_mm == 0) score += 0;
+          else if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 2;
+          else if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 5;
+          else if (cragWeather.weather.precip_mm > 4) score += 10;          
+          break;
+      }
+
+      if (cragWeather.weather.tempC >= temperatureRange.start &&
+          cragWeather.weather.tempC <= temperatureRange.end) {
+        score += 10;
+          }
+      else{
+        double topGap = 45.0 - temperatureRange.end;      
+        double bottomGap = 10 + temperatureRange.start;
+        double total = topGap + bottomGap;
+      if (cragWeather.weather.tempC > temperatureRange.end)
+      {
+          score += 10 - (((cragWeather.weather.tempC - temperatureRange.end)/total) * 10);
+      }
+      else
+      {
+        score += 10 - (((temperatureRange.start - cragWeather.weather.tempC)/total) * 10);
+      }
+      }
+
+      if (cragWeather.weather.windKph >= windSpeedRange.start &&
+          cragWeather.weather.windKph <= windSpeedRange.end) {
+        score += 10;
+      }
+      else 
+      {
+      double topGap = 100.0 - windSpeedRange.end;
+      double bottomGap = windSpeedRange.start;
+      double total = topGap + bottomGap;
+      if (cragWeather.weather.windKph > windSpeedRange.end)
+      {
+          score += 10 - (((cragWeather.weather.windKph - windSpeedRange.end)/total) * 10);
+      }
+      else
+      {
+          score += 10 - (((cragWeather.weather.windKph)/total) * 10);
+      }
+      }
+      print(cragWeather.cragName);
+      print(score);
+      print(",");
+      return score;
+    }
+
+    dataCopy.sort((a, b) => calculateScore(b).compareTo(calculateScore(a)));
+    filtered_data.clear();
+    filtered_data.addAll(dataCopy);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: width,
-        child:
-      Scaffold(
+      width: widget.width,
+      child: Scaffold(
         appBar: AppBar(
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.purple.shade300, Colors.deepPurple],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.purple.shade300, Colors.deepPurple],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              child: Center(
-                child: Text(
-                  'Filters',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+            ),
+            child: Center(
+              child: Text(
+                'Filters',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
           ),
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children:[
-            RainIntensitySlider(title: 'Rainfall Intensity'),
-            RainChanceSlider(title: 'Rainfall Chance'),
-            TemperatureSlider(title: 'Temperature (deg C)'),
-            WindSpeedSlider(title: 'Windspeed (mph)'),
-            ElevatedButton(
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all<double>(5),
-                ),
-                onPressed: () {
-                  // Build filter criteria based on current slider values
-                  // Pass filter criteria back to the parent widget
-                  //For now just pass an empty one
-                  final List<Weather> filtered = []; 
-                  
-                  onApplyButtonPressed(filtered);
-                },
-                child: Text('Apply'), // Add this child parameter
-              )
-            ]
+          children: [
+            RainIntensitySlider(
+              title: 'Rainfall Intensity',
+              initialIntensity: _currentRainIntensity,
+              onChanged: (value) => setState(() {
+                _currentRainIntensity = value;
+              }),
             ),
-        ));
-  }
-}
-
-class RainIntensitySlider extends StatefulWidget {
-  final String title;
-
-  const RainIntensitySlider({required this.title, Key? key}) : super(key: key);
-
-  @override
-  State<RainIntensitySlider> createState() => _RainIntensitySliderState();
-}
-
-class _RainIntensitySliderState extends State<RainIntensitySlider> {
-  RainIntensity _currentIntensity = RainIntensity.dry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(widget.title),
-        Slider(
-          value: _currentIntensity.index.toDouble(),
-          onChanged: (double value) {
-            setState(() {
-              _currentIntensity = RainIntensity.values[value.toInt()];
-            });
-          },
-          min: 0,
-          max: (RainIntensity.values.length - 1).toDouble(),
-          divisions: RainIntensity.values.length - 1,
-          label: _currentIntensity.toString().split('.').last,
+            TemperatureSlider(
+              title: 'Temperature (deg C)',
+              initialRange: _currentTemperatureRange,
+              onChanged: (value) => setState(() {
+                _currentTemperatureRange = value;
+              }),
+            ),
+            WindSpeedSlider(
+              title: 'Windspeed (kph)',
+              initialRange: _currentWindSpeedRange,
+              onChanged: (value) => setState(() {
+                _currentWindSpeedRange = value;
+              }),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all<double>(5),
+              ),
+              onPressed: () {
+                setFilteredData(
+                  widget.data,
+                  _currentRainIntensity,
+                  _currentTemperatureRange,
+                  _currentWindSpeedRange,
+                );
+                widget.onApplyButtonPressed(filtered_data);
+              },
+              child: Text('Apply'),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
 
-class RainChanceSlider extends StatefulWidget {
+class RainIntensitySlider extends StatelessWidget {
   final String title;
+  final RainIntensity initialIntensity;
+  final ValueChanged<RainIntensity> onChanged;
 
-  const RainChanceSlider({required this.title, Key? key}) : super(key: key);
-
-  @override
-  State<RainChanceSlider> createState() => _RainChanceSliderState();
-}
-
-class _RainChanceSliderState extends State<RainChanceSlider> {
-  RangeValues _currentRainChanceRange = const RangeValues(0, 100);
+  RainIntensitySlider({
+    required this.title,
+    required this.initialIntensity,
+    required this.onChanged,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(widget.title),
-        RangeSlider(
-          values: _currentRainChanceRange,
-          min: 0,
-          max: 100,
-          divisions: 100,
-          labels: RangeLabels(
-            _currentRainChanceRange.start.round().toString() + '%',
-            _currentRainChanceRange.end.round().toString() + '%',
-          ),
-          onChanged: (RangeValues values) {
-            setState(() {
-              _currentRainChanceRange = values;
-            });
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class TemperatureSlider extends StatefulWidget {
-  final String title;
-
-  const TemperatureSlider({required this.title, Key? key}) : super(key: key);
-
-  @override
-  State<TemperatureSlider> createState() => _TemperatureSliderState();
-}
-
-class _TemperatureSliderState extends State<TemperatureSlider> {
-  RangeValues _currentTemperatureRange = const RangeValues(0, 45);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(widget.title),
-        RangeSlider(
-          values: _currentTemperatureRange,
-          min: -10,
-          max: 45,
-          divisions: 55,
-          labels: RangeLabels(
-            _currentTemperatureRange.start.round().toString() + '°C',
-            _currentTemperatureRange.end.round().toString() + '°C',
-          ),
-          onChanged: (RangeValues values) {
-            setState(() {
-              _currentTemperatureRange = values;
-            });
+        Text(title),
+        StatefulBuilder(
+          builder: (context, setState) {
+            return Slider(
+              value: initialIntensity.index.toDouble(),
+              onChanged: (double value) {
+                setState(() {
+                  final intensity = RainIntensity.values[value.toInt()];
+                  onChanged(intensity);
+                });
+              },
+              min: 0,
+              max: (RainIntensity.values.length - 1).toDouble(),
+              divisions: RainIntensity.values.length - 1,
+              label: initialIntensity.toString().split('.').last,
+            );
           },
         ),
       ],
@@ -171,36 +226,40 @@ class _TemperatureSliderState extends State<TemperatureSlider> {
   }
 }
 
-class WindSpeedSlider extends StatefulWidget {
+class TemperatureSlider extends StatelessWidget {
   final String title;
+  final RangeValues initialRange;
+  final ValueChanged<RangeValues> onChanged;
 
-  const WindSpeedSlider({required this.title, Key? key}) : super(key: key);
-
-  @override
-  State<WindSpeedSlider> createState() => _WindSpeedSliderState();
-}
-
-class _WindSpeedSliderState extends State<WindSpeedSlider> {
-  RangeValues _currentWindSpeedRange = const RangeValues(0, 70);
+  TemperatureSlider({
+    required this.title,
+    required this.initialRange,
+    required this.onChanged,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(widget.title),
-        RangeSlider(
-          values: _currentWindSpeedRange,
-          min: 0,
-          max: 70,
-          divisions: 70,
-          labels: RangeLabels(
-            _currentWindSpeedRange.start.round().toString() + ' mph',
-            _currentWindSpeedRange.end.round().toString() + ' mph',
-          ),
-          onChanged: (RangeValues values) {
-            setState(() {
-              _currentWindSpeedRange = values;
-            });
+        Text(title),
+        StatefulBuilder(
+          builder: (context, setState) {
+            return RangeSlider(
+              values: initialRange,
+              min: -10,
+              max: 45,
+              divisions: 55,
+              labels: RangeLabels(
+                '${initialRange.start.round()}°C',
+                '${initialRange.end.round()}°C',
+              ),
+              onChanged: (RangeValues values) {
+                setState(() {
+                  onChanged(values);
+                });
+              },
+            );
           },
         ),
       ],
@@ -208,3 +267,43 @@ class _WindSpeedSliderState extends State<WindSpeedSlider> {
   }
 }
 
+class WindSpeedSlider extends StatelessWidget {
+  final String title;
+  final RangeValues initialRange;
+  final ValueChanged<RangeValues> onChanged;
+
+  WindSpeedSlider({
+    required this.title,
+    required this.initialRange,
+    required this.onChanged,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(title),
+        StatefulBuilder(
+          builder: (context, setState) {
+            return RangeSlider(
+              values: initialRange,
+              min: 0,
+              max: 100,
+              divisions: 100,
+              labels: RangeLabels(
+                '${initialRange.start.round()} kph',
+                '${initialRange.end.round()} kph',
+              ),
+              onChanged: (RangeValues values) {
+                setState(() {
+                  onChanged(values);
+                });
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
