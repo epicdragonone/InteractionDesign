@@ -54,17 +54,13 @@ class _SearchMenuState extends State<SearchMenu> {
 
     setState(() {
       _filteredData = widget.data
-          .where((element) => element.cragName //display name
+          .where((element) => element.weather.locationName //display name
               .toLowerCase()
               .contains(_searchController.text.toLowerCase()))
           .toList();
       _isLoading = false;
       print(_isLoading);
     });
-  }
-
-  void _onCragTap(String newCragName){
-    widget.onCragSelected(newCragName);
   }
 
   @override
@@ -122,7 +118,6 @@ class _SearchMenuState extends State<SearchMenu> {
           return ListView.builder(
             itemCount: _filteredData.length,
             itemBuilder: (context, index) => ListTile(
-              onTap: ()=> _onCragTap(_filteredData[index].cragName),
               title: FractionallySizedBox(
                 widthFactor: 1.0, //row takes the full width
                 child: Row(
