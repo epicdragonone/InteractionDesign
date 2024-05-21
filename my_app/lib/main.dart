@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'homePage.dart';
@@ -93,7 +93,8 @@ class _MyAppState extends State<MyApp> {
 
   void updateHomePageCrag(String newCragName){
     homePageCrag = newCragName;
-    print(homePageCrag);
+    // print(homePageCrag);
+    HomePage(defaultCrag:homePageCrag);
   }
 
   @override
@@ -117,7 +118,7 @@ class _MyAppState extends State<MyApp> {
             height: desiredHeight,
             child: Stack(
               children: [
-                HomePage(location:homePageCrag),
+                HomePage(defaultCrag:homePageCrag),
 
                 // Display weather icons for default locations
                 // for (int i = 0; i < defaultWeatherData.length; i++)

@@ -1,35 +1,171 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/cragPage.dart';
+import 'package:my_app/weatherGetter.dart';
+import 'dart:math';
+import 'package:provider/provider.dart';
+import 'dart:collection';
+import 'dart:io';
+import 'dart:isolate';
+import 'package:flutter/material.dart';
+import 'package:my_app/cragData.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
+import 'cragData.dart'; 
+import 'weatherGetter.dart' as api;
+import 'cragCurrentWeather.dart';
 
 class HomePage extends StatefulWidget {
-  final String location;
-
-  const HomePage({Key? key, required this.location}) : super(key: key);
-
+  // final String location;
+  // final String weather;
+  final String defaultCrag;
+  const HomePage({super.key, required this.defaultCrag});
+  
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-  /*
-  String cragName = "";
-  String difficulty = "";
-  String imageAddress = "";
-  String rainedXHoursAgo = "";
-  String heat = "";
-  String wind = "";
-  String rain = "";
-  String calculatedGoodness = "";
-  String currTime = "";
-  String alphaCrag = "";
-  String betaCrag = "";
-  String charlieCrag = "";
-  String deltaCrag = "";
-  String echoCrag = ""; 
-  */
+// TODO: Change dates and times when pressing buttons. Make sure this works. Then, for each time, calculate the new weather inputs
+// TODO: Make links with Cragnames dynamic etc. Do this by passing in the getWeather thing that WE have.
+
 
 class _HomePageState extends State<HomePage> {
+
+  String cragName = ""; // Done
+  String difficulty = ""; // Done
+  String imageAddress = ""; // Meh
+  int rainedXHoursAgo = 0; // Done
+  String heat = ""; // Done
+  String wind = ""; // Done
+  String rain = ""; // Done
+  String calculatedGoodness = ""; // Done
+  Color calculatedGoodnessColour = Color.fromARGB(0, 198, 147, 147); // Done
+  int currTime = 11; 
+  String alphaCrag = "crag_b"; 
+  String betaCrag = "crag_c"; 
+  String charlieCrag = "crag_d"; 
+  String deltaCrag = "crag_e"; 
+  String echoCrag = "crag_f";  
+  String location = ""; // Done
+  String formattedDate = ""; // Done
+  double heatParam = 0; // Done
+  double windParam = 0; // Done
+  double rainParam = 0; // Done
+
+
+  void setup(String cragName) {
+    
+    Map<String, dynamic> cragInfo = CragData().get()[cragName];
+    print(cragName);
+    this.cragName = cragInfo["name"];
+    difficulty = '${CragData().parseDifficulty(cragInfo["difficultyMin"])}-${CragData().parseDifficulty(cragInfo["difficultyMax"])}';
+    location = cragInfo["location"];
+
+    // getWeather(location, formattedDate);
+  
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    var now = DateTime.now();
+    formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    setup(widget.defaultCrag);
+    print("homepage setup");
+  }
+
+
+  Future<void> getWeather(String location, String formattedDate) async {
+
+
+    List<Future<api.Weather>> histories = [];
+
+    for (var i = -12; i <= 0 ; i++) {
+      int hours = DateTime.now().hour + i;
+      DateTime now = DateTime.now();
+      if (hours < 0) {
+        hours = 24 + hours;
+        now.subtract(const Duration(days: 1));
+      }
+
+      histories.add(api.WeatherApi().fetchWeather(location, formattedDate, hours, "history"));
+      print("akakakakakak");
+    }
+
+
+    return await Future.wait(histories).then((historiesResolved) {
+        
+      // This is to find the last time it rained
+
+      for (int i = 11; i >= 0; i--) {
+        api.Weather weatherRightNow = historiesResolved[i];
+        if (weatherRightNow.precip_mm > 0) {
+          rainedXHoursAgo = i;
+          break;
+        }
+      }
+
+
+      //try {
+        
+        late Weather dataAtTime;
+
+        // below line needs to be changed to get weather at the correct time
+        dataAtTime = historiesResolved[11];
+
+        /*
+        if (currTime <= 11) { 
+          dataAtTime = await api.WeatherApi().fetchWeather(location, formattedDate, currTime, "history");
+          print("okokokok");
+        } else {
+          dataAtTime = await api.WeatherApi().fetchWeather(location, formattedDate, currTime, "forecast");
+          print("monke");
+        }
+        */
+        
+
+
+        //setState(() {
+          heat = '${dataAtTime.tempC}°C';
+          wind = '${dataAtTime.windKph} kph';
+          rain = '${dataAtTime.precip_mm} mm';
+          rainedXHoursAgo = currTime;
+          heatParam = dataAtTime.tempC;
+          windParam = dataAtTime.windKph;
+          rainParam = dataAtTime.precip_mm;
+          if (heatParam <= 20 && heatParam >= 10 && windParam <= 25 && rainParam <= 0.2) {
+            calculatedGoodness = 'Great';
+            calculatedGoodnessColour = Color.fromARGB(255, 0, 255, 0);
+          
+          } else {
+          
+          if (heatParam >= 5 && heatParam <= 25 && windParam <= 40 && rainParam <= 4) {
+            calculatedGoodness = 'OK';
+            calculatedGoodnessColour = Color.fromARGB(255, 255, 187, 0);
+          } else {
+            calculatedGoodness = 'Bad';
+            calculatedGoodnessColour = Color.fromARGB(255, 255, 0, 0);
+          }
+        }
+        //});
+      //} catch (e) {
+      //  print('Error fetching weather data: $e');
+     // }
+      });
+    
+  }
+
+  
+
+
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future:getWeather(location, formattedDate),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done)
+        {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       body: Column(
@@ -48,7 +184,7 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.zero,
               border: Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
             ),
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -56,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Text(
-                    "Sigma Crag",
+                    "$cragName - $location",
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
@@ -70,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: Text(
-                    "Difficulty:",
+                    difficulty,
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
@@ -127,10 +263,10 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: Text(
-                    "Rained 8 hours ago",
+                    "Rained ${rainedXHoursAgo} hours ago",
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
@@ -141,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -149,7 +285,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        "Heat",
+                        heat,
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -160,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        "Wind",
+                        wind,
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -171,7 +307,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        "Rain%",
+                        rain,
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -184,17 +320,17 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
                   child: Text(
-                    "Great",
+                    calculatedGoodness,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
                       fontSize: 30,
-                      color: Color(0xff009700),
+                      color: calculatedGoodnessColour,
                     ),
                   ),
                 ),
@@ -212,12 +348,12 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_double_arrow_left),
-                            onPressed: () {},
+                            onPressed: () {currTime -= 3;},
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
                           Text(
-                            "-1D",
+                            "-3h",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -236,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_arrow_left),
-                            onPressed: () {},
+                            onPressed: () {currTime -= 1;},
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -260,12 +396,12 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.restore),
-                            onPressed: () {},
+                            onPressed: () {currTime = 11;},
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
                           Text(
-                            "currTime",
+                            currTime.toString(),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -284,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_arrow_right),
-                            onPressed: () {},
+                            onPressed: () {currTime += 1;},
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -308,12 +444,12 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_double_arrow_right),
-                            onPressed: () {},
+                            onPressed: () {currTime += 3;},
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
                           Text(
-                            "+1D",
+                            "+3h",
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -352,7 +488,12 @@ class _HomePageState extends State<HomePage> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          setup("crag_b");
+                          cragName = "crag_b";
+                        },);
+                      },
                       color: const Color(0xffffffff),
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
@@ -363,8 +504,8 @@ class _HomePageState extends State<HomePage> {
                       textColor: const Color(0xff000000),
                       height: 40,
                       minWidth: 140,
-                      child: const Text(
-                        "Alpha Crag",
+                      child: Text(
+                        alphaCrag,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -373,7 +514,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          setup("crag_c");
+                          cragName = "crag_c";
+                        },);
+                      },
                       color: const Color(0xffffffff),
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
@@ -384,8 +530,8 @@ class _HomePageState extends State<HomePage> {
                       textColor: const Color(0xff000000),
                       height: 40,
                       minWidth: 140,
-                      child: const Text(
-                        "Beta Crag",
+                      child: Text(
+                        betaCrag,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -394,7 +540,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                          setState(() {
+                          setup("crag_d");
+                          cragName = "crag_d";
+                        },);
+                      },
                       color: const Color(0xffffffff),
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
@@ -405,8 +556,8 @@ class _HomePageState extends State<HomePage> {
                       textColor: const Color(0xff000000),
                       height: 40,
                       minWidth: 140,
-                      child: const Text(
-                        "Charlie Crag",
+                      child: Text(
+                        charlieCrag,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -415,7 +566,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          setup("crag_e");
+                          cragName = "crag_e";
+                        },);
+
+                      },
                       color: const Color(0xffffffff),
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
@@ -426,8 +583,8 @@ class _HomePageState extends State<HomePage> {
                       textColor: const Color(0xff000000),
                       height: 40,
                       minWidth: 140,
-                      child: const Text(
-                        "Delta Crag",
+                      child: Text(
+                        deltaCrag,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -436,7 +593,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                          setState(() {
+                          setup("crag_f");
+                          cragName = "crag_f";
+                        },);
+                      },
                       color: const Color(0xffffffff),
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
@@ -447,8 +609,8 @@ class _HomePageState extends State<HomePage> {
                       textColor: const Color(0xff000000),
                       height: 40,
                       minWidth: 140,
-                      child: const Text(
-                        "Echo Crag",
+                      child:  Text(
+                        echoCrag,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -463,6 +625,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-    );
+      );
+  }
+   else {
+      return CircularProgressIndicator();
+    }
+  },
+  
+  );
   }
 }
