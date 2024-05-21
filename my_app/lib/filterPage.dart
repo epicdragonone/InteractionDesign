@@ -44,28 +44,69 @@ class _FilterPageState extends State<FilterPage> {
       switch (rainIntensity) {
         case RainIntensity.dry:
           if (cragWeather.weather.precip_mm == 0) score += 10;
+          else if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 6;
+          else if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 3;
+          else if (cragWeather.weather.precip_mm > 4) score += 0;
           break;
         case RainIntensity.drizzle:
-          if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 10;
+          if (cragWeather.weather.precip_mm == 0) score += 2;
+          else if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 10;
+          else if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 5;
+          else if (cragWeather.weather.precip_mm > 4) score += 2;
           break;
         case RainIntensity.moderate:
-          if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 10;
+          if (cragWeather.weather.precip_mm == 0) score += 0;
+          else if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 5;
+          else if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 10;
+          else if (cragWeather.weather.precip_mm > 4) score += 5;          
           break;
         case RainIntensity.heavy:
-          if (cragWeather.weather.precip_mm > 4) score += 10;
+          if (cragWeather.weather.precip_mm == 0) score += 0;
+          else if (cragWeather.weather.precip_mm > 0 && cragWeather.weather.precip_mm <= 0.5) score += 2;
+          else if (cragWeather.weather.precip_mm > 0.5 && cragWeather.weather.precip_mm <= 4) score += 5;
+          else if (cragWeather.weather.precip_mm > 4) score += 10;          
           break;
       }
 
       if (cragWeather.weather.tempC >= temperatureRange.start &&
           cragWeather.weather.tempC <= temperatureRange.end) {
         score += 10;
+          }
+      else{
+        double topGap = 45.0 - temperatureRange.end;      
+        double bottomGap = 10 + temperatureRange.start;
+        double total = topGap + bottomGap;
+      if (cragWeather.weather.tempC > temperatureRange.end)
+      {
+          score += 10 - (((cragWeather.weather.tempC - temperatureRange.end)/total) * 10);
+      }
+      else
+      {
+        score += 10 - (((temperatureRange.start - cragWeather.weather.tempC)/total) * 10);
+      }
       }
 
       if (cragWeather.weather.windKph >= windSpeedRange.start &&
           cragWeather.weather.windKph <= windSpeedRange.end) {
         score += 10;
       }
-    print(cragWeather.weather.precip_mm);
+      else 
+      {
+      double topGap = 100.0 - windSpeedRange.end;
+      double bottomGap = windSpeedRange.start;
+      double total = topGap + bottomGap;
+      if (cragWeather.weather.windKph > windSpeedRange.end)
+      {
+          score += 10 - (((cragWeather.weather.windKph - windSpeedRange.end)/total) * 10);
+      }
+      else
+      {
+          score += 10 - (((cragWeather.weather.windKph)/total) * 10);
+      }
+      }
+      print(cragWeather.cragName);
+      print(score);
+      print(",");
       return score;
     }
 
