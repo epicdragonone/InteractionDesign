@@ -24,8 +24,10 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-// TODO: Change dates and times when pressing buttons. 
-// Calculate the new weather inputs when this happens
+// DONE: Change dates and times when pressing buttons. THIS WORKS 
+// TODO: Calculate the new weather inputs when this happens
+// Firstly, we need to fix 
+
 
 
 class _HomePageState extends State<HomePage> {
@@ -52,14 +54,20 @@ class _HomePageState extends State<HomePage> {
   double rainParam = 0; // Done
   String rainedXHoursAgoOutput = "";
 
-  void setup(String cragName, String time) {
-    
-    Map<String, dynamic> cragInfo = CragData().get()[cragName];
+
+  void setup(String cragName, int time) {
+    print(cragName);
+    String cragName2 = cragName.toLowerCase().replaceAll(' ', '_');
+    Map<String, dynamic> cragInfo = CragData().get()[cragName2];
     print(cragName);
     this.cragName = cragInfo["name"];
     difficulty = '${CragData().parseDifficulty(cragInfo["difficultyMin"])}-${CragData().parseDifficulty(cragInfo["difficultyMax"])}';
     location = cragInfo["location"];
-    currTime ;
+    if (time == 0) {
+      currTime = 0;
+    } else {
+      currTime += time;
+    }
 
     // getWeather(location, formattedDate);
   
@@ -71,15 +79,38 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     var now = DateTime.now();
     formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    setup(widget.defaultCrag, formattedDate);
+    setup(widget.defaultCrag, 0);
+    print(widget.defaultCrag);
     print("homepage setup");
   }
 
 
   Future<void> getWeather(String location, String formattedDate) async {
 
-
     List<Future<api.Weather>> histories = [];
+
+    for (var i = -12; i <= 12; i++) {
+      int hours = DateTime.now().hour + i;
+      DateTime now = DateTime.now();
+      if (hours < 0) {
+        hours = 24 + hours;
+        now.subtract(const Duration(days: 1));
+      }
+
+      if (hours > 23) {
+        hours -= 24;
+        now.add(const Duration(days: 1));
+      }
+
+      if (i <= 0) {
+        histories.add(api.WeatherApi()
+          .fetchWeather(location, formattedDate, hours, "history"));
+      } else {
+        histories.add(api.WeatherApi().fetchWeather(location, formattedDate, hours, "forecast"));
+      }
+      
+    }
+
 
     for (var i = -11; i <= 0 ; i++) {
       int hours = DateTime.now().hour + i;
@@ -92,6 +123,7 @@ class _HomePageState extends State<HomePage> {
       histories.add(api.WeatherApi().fetchWeather(location, formattedDate, hours, "history"));
       print("akakakakakak");
     }
+
 
 
     return await Future.wait(histories).then((historiesResolved) {
@@ -347,8 +379,8 @@ class _HomePageState extends State<HomePage> {
                             icon: Icon(Icons.keyboard_double_arrow_left),
                             onPressed: () {
                             setState(() {
-                              setup(cragName, formattedDate);
-                              currTime -= 3;
+                              print(cragName);
+                              setup(cragName, -3);
                             },);
 
                             },
@@ -375,7 +407,12 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_arrow_left),
-                            onPressed: () {currTime -= 1;},
+                            onPressed: () {
+                              setState(() {
+                              setup(cragName, -1);
+                            },);
+
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -399,7 +436,13 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.restore),
-                            onPressed: () {currTime = 11;},
+                            onPressed: () {                            
+                              setState(() {
+                              setup(cragName, 0);
+                            },);
+                            
+                            
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -423,7 +466,12 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_arrow_right),
-                            onPressed: () {currTime += 1;},
+                            onPressed: () {
+                            setState(() {
+                              setup(cragName, 1);
+                            },);
+
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -447,7 +495,11 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_double_arrow_right),
-                            onPressed: () {currTime += 3;},
+                            onPressed: () {
+                            setState(() {
+                              setup(cragName, 3);
+                            },);
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -493,7 +545,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_b", formattedDate);
+                          setup("crag_b", 0);
                           cragName = "crag_b";
 
                         },);
@@ -520,7 +572,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_c", formattedDate);
+                          setup("crag_c", 0);
                           cragName = "crag_c";
                         },);
                       },
@@ -546,7 +598,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                           setState(() {
-                          setup("crag_d", formattedDate);
+                          setup("crag_d", 0);
                           cragName = "crag_d";
                         },);
                       },
@@ -572,7 +624,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_e", formattedDate);
+                          setup("crag_e", 0);
                           cragName = "crag_e";
                         },);
 
@@ -599,7 +651,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                           setState(() {
-                          setup("crag_f", formattedDate);
+                          setup("crag_f", 0);
                           cragName = "crag_f";
                         },);
                       },
