@@ -11,8 +11,8 @@ import 'cragData.dart';
 import 'cragCurrentWeather.dart';
 
 void main() {
-  List<String> defaultCrags = ["Stanage_Edge", "Froggatt_Edge", "Curbar_Edge", "Burbage_North", "Burbage_South", "Milstone_Edge", "Birchen_Edge", "Lawrencefield", "Raven_Tor", "Dovedale", "Chee_Dale", "Malham_Cove", "Goredale_Scar", "Kilnsey_Crag", "Beach_Hill"];
-  String defaultHomePageCrag = "Stanage_Edge";
+  List<String> defaultCrags = ["stanage_edge", "froggatt_edge", "curbar_edge", "burbage_north", "burbage_south", "milstone_edge", "birchen_edge", "lawrencefield", "raven_tor", "dovedale", "chee_dale", "malham_cove", "goredale_scar", "kilnsey_crag", "beach_hill"];
+  String defaultHomePageCrag = "stanage_edge";
   runApp(MyApp(defaultCrags:defaultCrags, defaultHomePageCrag: defaultHomePageCrag,));
 
 }
@@ -146,7 +146,7 @@ class _MyAppState extends State<MyApp> {
                       width: screenWidth * sideBarWidth,
                       data: searchMenuData, // Pass weather data instead of strings
                       onFilterButtonPressed: toggleSearchFilter,
-                      onCragSelected: (newCragName) => Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(defaultHomePageCrag: newCragName, defaultCrags: ["Stanage_Edge", "Froggatt_Edge", "Curbar_Edge", "Burbage_North", "Burbage_South", "Milstone_Edge", "Birchen_Edge", "Lawrencefield", "Raven_Tor", "Dovedale", "Chee_Dale", "Malham_Cove", "Goredale_Scar", "Kilnsey_Crag", "Beach_Hill"]))),
+                      onCragSelected: (newCragName) => Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(defaultHomePageCrag: newCragName, defaultCrags: ["stanage_edge", "froggatt_edge", "curbar_edge", "burbage_north", "burbage_south", "milstone_edge", "birchen_edge", "lawrencefield", "raven_tor", "dovedale", "chee_dale", "malham_cove", "goredale_scar", "kilnsey_crag", "beach_hill"]))),
                     ),
                   ),
 
