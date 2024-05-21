@@ -47,7 +47,7 @@ class _SearchMenuState extends State<SearchMenu> {
 
     setState(() {
       _filteredData = widget.data
-          .where((element) => element.weather.locationName //display name
+          .where((element) => element.cragName //display name
               .toLowerCase()
               .contains(_searchController.text.toLowerCase()))
           .toList();
