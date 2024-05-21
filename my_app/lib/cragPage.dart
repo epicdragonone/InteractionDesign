@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:my_app/homePage.dart';
 import 'package:provider/provider.dart';
 import 'dart:collection';
-import 'dart:io';
-import 'dart:isolate';
+// import 'dart:io';
+// import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:my_app/cragData.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-import 'cragData.dart';
+// import 'cragData.dart';
 import 'weatherGetter.dart' as api;
 
 class CragPage extends StatefulWidget {
