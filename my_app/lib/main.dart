@@ -116,7 +116,7 @@ class _MyAppState extends State<MyApp> {
             height: desiredHeight,
             child: Stack(
               children: [
-                HomePage(defaultCrag:homePageCrag),
+                HomePage(location:homePageCrag),
 
                 // Display weather icons for default locations
                 // for (int i = 0; i < defaultWeatherData.length; i++)
@@ -144,6 +144,7 @@ class _MyAppState extends State<MyApp> {
                       width: screenWidth * sideBarWidth,
                       data: searchMenuData, // Pass weather data instead of strings
                       onFilterButtonPressed: toggleSearchFilter,
+                      onCragSelected: (newCragName) => updateHomePageCrag(newCragName),
                     ),
                   ),
 
