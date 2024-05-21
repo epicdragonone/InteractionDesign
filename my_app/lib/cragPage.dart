@@ -154,6 +154,7 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
     print("test");
     Map<String, dynamic> cragInfo = CragData().get()[cragName];
 
+    cragName = cragName;
     cragDisplayName = cragInfo["name"];
     cragRockType = cragInfo["rockMaterial"];
     difficultyRange =
@@ -188,9 +189,26 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
                             alignment: Alignment.topCenter,
                             child: ElevatedButton(
                                 onPressed: () {
+                                Map<String, String> c = {
+                                  "Crag A": "crag_a",
+                                  "Crag B": "crag_b",
+                                  "Crag C": "crag_c",
+                                  "Crag D": "crag_d",
+                                  "Crag E": "crag_e",
+                                  "Crag F": "crag_f",
+                                  "Crag G": "crag_g",
+                                  "Crag H": "crag_h",
+                                  "Crag I": "crag_i",
+                                  "Crag J": "crag_j",
+                                  "Crag K": "crag_k",
+                                  "Crag L": "crag_l",
+                                  "Crag M": "crag_m",
+                                  "Crag N": "crag_n",
+                                  "Crag O": "crag_o",
+                                };
                                                   Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyApp(defaultHomePageCrag: cragName,defaultCrags: ["crag_a", "crag_b", "crag_c", "crag_d", "crag_e", "crag_f", "crag_g", "crag_h", "crag_i", "crag_j", "crag_k", "crag_l", "crag_m", "crag_n", "crag_o"],)),
+                  MaterialPageRoute(builder: (context) => MyApp(defaultHomePageCrag: c[cragDisplayName]!,defaultCrags: ["crag_a", "crag_b", "crag_c", "crag_d", "crag_e", "crag_f", "crag_g", "crag_h", "crag_i", "crag_j", "crag_k", "crag_l", "crag_m", "crag_n", "crag_o"],)),
                 );
                                   //Navigator.pop(context);
                                   //super.dispose();
