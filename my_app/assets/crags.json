@@ -1,105 +1,105 @@
 {
     "crags": {
-        "Stanage_Edge": {
-            "name": "Stanage_Edge",
+        "stanage_edge": {
+            "name": "stanage_edge",
             "location": "S32",
             "difficultyMin": 20,
             "difficultyMax": 42,
             "rockMaterial": "limestone"
         },
-        "Froggatt_Edge": {
-            "name": "Froggatt_Edge",
+        "froggatt_edge": {
+            "name": "froggatt_edge",
             "location": "S32",
             "difficultyMin": 18,
             "difficultyMax": 39,
             "rockMaterial": "granite"
         },
-        "Curbar_Edge": {
-            "name": "Curbar_Edge",
+        "curbar_edge": {
+            "name": "curbar_edge",
             "location": "S32",
             "difficultyMin": 24,
             "difficultyMax": 49,
             "rockMaterial": "sandstone"
         },
-        "Burbage_North": {
-            "name": "Curbar_Edge",
+        "burbage_north": {
+            "name": "burbage_north",
             "location": "S32",
             "difficultyMin": 29,
             "difficultyMax": 56,
             "rockMaterial": "gneiss"
         },
-        "Burbage_South": {
-            "name": "Burbage_North",
+        "burbage_south": {
+            "name": "burbage_south",
             "location": "S32",
             "difficultyMin": 19,
             "difficultyMax": 52,
             "rockMaterial": "basalt"
         },
-        "Milstone_Edge": {
-            "name": "Milstone_Edge",
+        "milstone_edge": {
+            "name": "milstone_edge",
             "location": "S32",
             "difficultyMin": 32,
             "difficultyMax": 60,
             "rockMaterial": "limestone"
         },
-        "Birchen_Edge": {
-            "name": "Birchen_Edge",
+        "birchen_edge": {
+            "name": "birchen_edge",
             "location": "DE45",
             "difficultyMin": 22,
             "difficultyMax": 47,
             "rockMaterial": "granite"
         },
-        "Lawrencefield": {
-            "name": "Lawrencefield",
+        "lawrencefield": {
+            "name": "lawrencefield",
             "location": "S32",
             "difficultyMin": 25,
             "difficultyMax": 58,
             "rockMaterial": "gneiss"
         },
-        "Raven_Tor": {
-            "name": "Raven_Tor",
+        "raven_tor": {
+            "name": "raven_tor",
             "location": "RG1",
             "difficultyMin": 16,
             "difficultyMax": 35,
             "rockMaterial": "sandstone"
         },
-        "Dovedale": {
-            "name": "Dovedale",
+        "dovedale": {
+            "name": "dovedale",
             "location": "DE6",
             "difficultyMin": 27,
             "difficultyMax": 53,
             "rockMaterial": "basalt"
         },
-        "Chee_Dale": {
-            "name": "Chee_Dale",
+        "chee_dale": {
+            "name": "chee_dale",
             "location": "CB2",
             "difficultyMin": 28,
             "difficultyMax": 59,
             "rockMaterial": "limestone"
         },
-        "Malham_Cove": {
-            "name": "Malham_Cove",
+        "malham_cove": {
+            "name": "malham_cove",
             "location": "LL49",
             "difficultyMin": 21,
             "difficultyMax": 46,
             "rockMaterial": "granite"
         },
-        "Goredale_Scar": {
-            "name": "Goredale_Scar",
+        "goredale_scar": {
+            "name": "goredale_scar",
             "location": "LL55",
             "difficultyMin": 18,
             "difficultyMax": 37,
             "rockMaterial": "gneiss"
         },
-        "Kilnsey_Crag": {
-            "name": "Kilnsey_Crag",
+        "kilnsey_crag": {
+            "name": "kilnsey_crag",
             "location": "LL65",
             "difficultyMin": 32,
             "difficultyMax": 50,
             "rockMaterial": "sandstone"
         },
-        "Beach_Hill": {
-            "name": "Beach_Hill",
+        "beach_hill": {
+            "name": "beach_hill",
             "location": "WN6",
             "difficultyMin": 26,
             "difficultyMax": 55,
