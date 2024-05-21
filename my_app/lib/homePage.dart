@@ -42,11 +42,11 @@ class _HomePageState extends State<HomePage> {
   String calculatedGoodness = ""; // Done
   Color calculatedGoodnessColour = Color.fromARGB(0, 198, 147, 147); // Done
   int currTime = 0; 
-  String alphaCrag = "crag_b"; 
-  String betaCrag = "crag_c"; 
-  String charlieCrag = "crag_d"; 
-  String deltaCrag = "crag_e"; 
-  String echoCrag = "crag_f";  
+  String alphaCrag = "Froggatt_Edge"; 
+  String betaCrag = "Curbar_Edge"; 
+  String charlieCrag = "Burbage_North"; 
+  String deltaCrag = "Burbage_South"; 
+  String echoCrag = "Milstone_Edge";  
   String location = ""; // Done
   String formattedDate = ""; // Done
   double heatParam = 0; // Done
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CragPage(cragName: "crag_a",title: "title",)),
+                  MaterialPageRoute(builder: (context) => CragPage(cragName: "Stanage_Edge",title: "title",)),
                 );
               },
               child: const Image(
@@ -546,8 +546,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_b", 0);
-                          cragName = "crag_b";
+                          setup("Froggatt_Edge", 0);
+                          cragName = "Froggatt_Edge";
 
                         },);
                       },
@@ -573,8 +573,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_c", 0);
-                          cragName = "crag_c";
+                          setup("Curbar_Edge", 0);
+                          cragName = "Curbar_Edge";
                         },);
                       },
                       color: const Color(0xffffffff),
@@ -599,8 +599,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                           setState(() {
-                          setup("crag_d", 0);
-                          cragName = "crag_d";
+                          setup("Burbage_North", 0);
+                          cragName = "Burbage_North";
                         },);
                       },
                       color: const Color(0xffffffff),
@@ -625,8 +625,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_e", 0);
-                          cragName = "crag_e";
+                          setup("Burbage_South", 0);
+                          cragName = "Burbage_South";
                         },);
 
                       },
@@ -652,8 +652,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                           setState(() {
-                          setup("crag_f", 0);
-                          cragName = "crag_f";
+                          setup("Milstone_Edge", 0);
+                          cragName = "Milstone_Edge";
                         },);
                       },
                       color: const Color(0xffffffff),
