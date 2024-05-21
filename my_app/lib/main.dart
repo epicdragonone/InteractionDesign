@@ -132,6 +132,7 @@ class _MyAppState extends State<MyApp> {
                   Positioned(
                     child: FilterPage(
                       width: screenWidth * sideBarWidth,
+                      data: defaultData,
                       onApplyButtonPressed: handleFilterApply,
                     ),
                   ),

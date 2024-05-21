@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/cragCurrentWeather.dart';
 import 'package:my_app/weatherGetter.dart';
+
 enum RainIntensity { dry, drizzle, heavy, storm }
 
 class FilterPage extends StatelessWidget {
-  final Function(List<CragWeather>) onApplyButtonPressed;
+  final Function(List<CragCurrentWeather>) onApplyButtonPressed;
   final double width;
-  const FilterPage({Key? key,required this.width, required this.onApplyButtonPressed}) : super(key: key);
+  final List<CragCurrentWeather>data;
+  final List<CragCurrentWeather>filtered_data;
+  const FilterPage({Key? key,required this.width, required this.data, required this.onApplyButtonPressed}) : super(key: key);
+
+  void setFilteredData(List<CragCurrentWeather> data){
+      ...
+      
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +59,8 @@ class FilterPage extends StatelessWidget {
                   // Pass filter criteria back to the parent widget
                   //For now just pass an empty one
                   // final List<Weather> filtered = []; 
-                  
-                  onApplyButtonPressed(filtered);
+                  setFilteredData(data);
+                  onApplyButtonPressed(filtered_data);
                 },
                 child: Text('Apply'), // Add this child parameter
               )
