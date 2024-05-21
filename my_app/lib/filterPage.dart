@@ -3,11 +3,9 @@ import 'package:my_app/weatherGetter.dart';
 enum RainIntensity { dry, drizzle, heavy, storm }
 
 class FilterPage extends StatelessWidget {
-  final Function(List<Weather>) onApplyButtonPressed;
+  final Function(List<CragWeather>) onApplyButtonPressed;
   final double width;
   const FilterPage({Key? key,required this.width, required this.onApplyButtonPressed}) : super(key: key);
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +49,7 @@ class FilterPage extends StatelessWidget {
                   // Build filter criteria based on current slider values
                   // Pass filter criteria back to the parent widget
                   //For now just pass an empty one
-                  final List<Weather> filtered = []; 
+                  // final List<Weather> filtered = []; 
                   
                   onApplyButtonPressed(filtered);
                 },

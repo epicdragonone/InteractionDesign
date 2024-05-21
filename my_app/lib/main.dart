@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'homePage.dart';
 import 'filterPage.dart';
@@ -5,21 +7,18 @@ import 'searchMenu.dart';
 import 'cragPage.dart';
 import 'toggleButton.dart';
 import 'weatherGetter.dart';
+import 'cragData.dart';
+import 'cragCurrentWeather.dart';
 
 void main() {
-  final List<String> defaultLocationList = [
-  'Istanbul', 'London', 'Dubai', 'Antalya', 'Paris', 'Hong Kong'];
-  /*
-  the default location list for search menu and home page, the home page will shown the first one
-  */
+  List<String> defaultCrags = ["Crag A","Crag B","Crag C","Crag D","Crag E","Crag F","Crag G","Crag H","Crag I","Crag J","Crag K","Crag L","Crag M","Crag N","Crag O"];
+  runApp(MyApp(defaultCrags:defaultCrags));
 
-  runApp(MyApp(defaultLocationList: defaultLocationList));
 }
 
 class MyApp extends StatefulWidget {
-  final List<String> defaultLocationList;
-
-  const MyApp({Key? key, required this.defaultLocationList}) : super(key: key);
+  final List<String> defaultCrags = [];
+  MyApp({Key? key,required defaultCrags}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -30,24 +29,28 @@ class _MyAppState extends State<MyApp> {
   bool isSearch = true;
   final double sideBarWidth = 0.8;
 
-  List<Weather> defaultWeatherData = []; //the intialisation should consider time
-  List<Weather> searchMenuData = []; 
+
+  void initDefaultData(defaultCrags) async{
+    for (String cragName in defaultCrags) {
+      setState(() {
+        defaultData.add(CragCurrentWeather(cragName));  
+      });
+    }
+  }
+
+  List<CragCurrentWeather> defaultData = []; //the intialisation should consider time
+
+  List<CragCurrentWeather> searchMenuData = []; 
 
   @override
   void initState() {
     super.initState();
-    fetchDefaultWeatherData(widget.defaultLocationList); 
-    updateSearchMenuData(defaultWeatherData);
+    initDefaultData(widget.defaultCrags); 
+    updateSearchMenuData(defaultData);
   }
 
   Future<void> fetchDefaultWeatherData(List<String> locations) async {
-    final api = WeatherApi();
-    for (String location in locations) {
-      final weather = await api.fetchCurrentWeather(location);
-      setState(() {
-        defaultWeatherData.add(weather);
-      });
-    }
+    
   }
 
   void toggleSideBar() {
@@ -62,13 +65,13 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void updateSearchMenuData(List<Weather> weatherData) {
+  void updateSearchMenuData(List<CragCurrentWeather> newData) {
     setState(() {
-      searchMenuData = weatherData;
+      searchMenuData = newData;
     });
   }
 
-  void handleFilterApply(List<Weather> filtered) {
+  void handleFilterApply(List<CragCurrentWeather> filtered) {
     updateSearchMenuData(filtered);
     toggleSearchFilter();
   }
@@ -94,7 +97,7 @@ class _MyAppState extends State<MyApp> {
             height: desiredHeight,
             child: Stack(
               children: [
-                HomePage(location: widget.defaultLocationList[0]),
+                HomePage(location:"Cambridge"),
 
                 // Display weather icons for default locations
                 // for (int i = 0; i < defaultWeatherData.length; i++)

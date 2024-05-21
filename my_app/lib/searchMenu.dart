@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/cragCurrentWeather.dart';
 import 'package:my_app/weatherGetter.dart';
 
 class SearchMenu extends StatefulWidget {
 
   final double width; // Width parameter
-  final List<Weather> data;
+  final List<CragCurrentWeather> data;
   final VoidCallback onFilterButtonPressed;
 
   const SearchMenu({Key? key, required this.width, required this.data, required this.onFilterButtonPressed}) : super(key: key);
@@ -25,7 +26,7 @@ class _SearchMenuState extends State<SearchMenu> {
 
   final TextEditingController _searchController = TextEditingController();
   
-  List<Weather> _filteredData = [];
+  List<CragCurrentWeather> _filteredData = [];
   bool _isLoading = false;
 
   @override
@@ -53,7 +54,7 @@ class _SearchMenuState extends State<SearchMenu> {
 
     setState(() {
       _filteredData = widget.data
-          .where((element) => element.locationName //display name
+          .where((element) => element.weather.locationName //display name
               .toLowerCase()
               .contains(_searchController.text.toLowerCase()))
           .toList();
@@ -128,7 +129,7 @@ class _SearchMenuState extends State<SearchMenu> {
                         child: Padding(
                           padding: EdgeInsets.only(left: listViewWidth*0.02), //Padding relative to the ListView width
                           child: Text(
-                            _filteredData[index].locationName, // Display name
+                            _filteredData[index].weather.locationName, // Display name
                             style: const TextStyle(color: Colors.white, fontSize:18,fontWeight: FontWeight.normal),
                           ),
                         ),
@@ -141,7 +142,7 @@ class _SearchMenuState extends State<SearchMenu> {
                         child: Padding(
                           padding: EdgeInsets.only(right: listViewWidth*0.4), //Padding relative to the ListView width
                           child: Image.network(
-                            _filteredData[index].iconUrl,
+                            _filteredData[index].weather.iconUrl,
                             width: 35,
                             height: 35,
                           ),
