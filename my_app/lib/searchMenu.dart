@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/cragCurrentWeather.dart';
-import 'package:my_app/weatherGetter.dart';
+// import 'package:my_app/weatherGetter.dart';
 
 class SearchMenu extends StatefulWidget {
 
@@ -34,7 +34,6 @@ class _SearchMenuState extends State<SearchMenu> {
     super.initState();
     _filteredData = widget.data;
     print(_filteredData);
-    print("donw!!!");
     _searchController.addListener(_performSearch);
   }
 

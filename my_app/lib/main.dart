@@ -1,13 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'homePage.dart';
 import 'filterPage.dart';
 import 'searchMenu.dart';
-import 'cragPage.dart';
+// import 'cragPage.dart';
 import 'toggleButton.dart';
-import 'weatherGetter.dart';
-import 'cragData.dart';
+// import 'weatherGetter.dart';
+// import 'cragData.dart';
 import 'cragCurrentWeather.dart';
 
 void main() {
