@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:my_app/homePage.dart';
 import 'package:provider/provider.dart';
 import 'dart:collection';
 import 'dart:io';
@@ -44,7 +45,6 @@ class PageMain extends StatelessWidget  {
 }
 */
 
-
 class _MyHomePageState extends State<CragPage> with ChangeNotifier {
   String weatherQuery = ""; // default for now
 
@@ -69,10 +69,7 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
       "max": 0,
       "min": 999,
     },
-    "rain": {
-      "max": 0,
-      "min": 999
-    },
+    "rain": {"max": 0, "min": 999},
     "wind": {
       "max": 0,
       "min": 999,
@@ -95,10 +92,9 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
   }
 
   Future<dynamic> getWeather(location, formattedDate) async {
-
     List<Future<api.Weather>> histories = [];
 
-    for (var i = -12; i <= 0 ; i++) {
+    for (var i = -12; i <= 0; i++) {
       int hours = DateTime.now().hour + i;
       DateTime now = DateTime.now();
       if (hours < 0) {
@@ -106,7 +102,8 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
         now.subtract(const Duration(days: 1));
       }
 
-      histories.add(api.WeatherApi().fetchWeather(location, formattedDate, hours, "history"));
+      histories.add(api.WeatherApi()
+          .fetchWeather(location, formattedDate, hours, "history"));
     }
 
     return await Future.wait(histories).then((historiesResolved) {
@@ -117,24 +114,27 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
       temperature = weatherRightNow.tempC.toDouble();
 
       for (api.Weather w in historiesResolved) {
-          maxAndMin["wind"]!["max"] = max(maxAndMin["wind"]!["max"]!, w.windKph);
-          maxAndMin["wind"]!["min"] = min(maxAndMin["wind"]!["min"]!, w.windKph);
+        maxAndMin["wind"]!["max"] = max(maxAndMin["wind"]!["max"]!, w.windKph);
+        maxAndMin["wind"]!["min"] = min(maxAndMin["wind"]!["min"]!, w.windKph);
 
-          maxAndMin["temp"]!["max"] = max(maxAndMin["temp"]!["max"]!, w.tempC);
-          maxAndMin["temp"]!["min"] = min(maxAndMin["temp"]!["min"]!, w.tempC);
+        maxAndMin["temp"]!["max"] = max(maxAndMin["temp"]!["max"]!, w.tempC);
+        maxAndMin["temp"]!["min"] = min(maxAndMin["temp"]!["min"]!, w.tempC);
 
-          maxAndMin["humidity"]!["max"] = max(maxAndMin["humidity"]!["max"]!, w.humidity);
-          maxAndMin["humidity"]!["min"] = min(maxAndMin["humidity"]!["min"]!, w.humidity);
+        maxAndMin["humidity"]!["max"] =
+            max(maxAndMin["humidity"]!["max"]!, w.humidity);
+        maxAndMin["humidity"]!["min"] =
+            min(maxAndMin["humidity"]!["min"]!, w.humidity);
 
-          maxAndMin["rain"]!["max"] = max(maxAndMin["rain"]!["max"]!, w.precip_mm);
-          maxAndMin["rain"]!["min"] = min(maxAndMin["rain"]!["min"]!, w.precip_mm);
+        maxAndMin["rain"]!["max"] =
+            max(maxAndMin["rain"]!["max"]!, w.precip_mm);
+        maxAndMin["rain"]!["min"] =
+            min(maxAndMin["rain"]!["min"]!, w.precip_mm);
 
-
-          tempHistory.add(FlSpot(i, w.tempC));
-          rainHistory.add(FlSpot(i, w.precip_mm));
-          windHistory.add(FlSpot(i, w.windKph));
-          humidityHistory.add(FlSpot(i, w.humidity.toDouble()));
-          i++;
+        tempHistory.add(FlSpot(i, w.tempC));
+        rainHistory.add(FlSpot(i, w.precip_mm));
+        windHistory.add(FlSpot(i, w.windKph));
+        humidityHistory.add(FlSpot(i, w.humidity.toDouble()));
+        i++;
       }
       history.addAll({
         "tempHistory": tempHistory,
@@ -143,7 +143,6 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
         "humidityHistory": humidityHistory
       });
     });
-
   }
 
   // tba: take cragname as an argument and then setup info for page
@@ -153,7 +152,8 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
 
     cragDisplayName = cragInfo["name"];
     cragRockType = cragInfo["rockMaterial"];
-    difficultyRange = '${CragData().parseDifficulty(cragInfo["difficultyMin"])}-${CragData().parseDifficulty(cragInfo["difficultyMax"])}';
+    difficultyRange =
+        '${CragData().parseDifficulty(cragInfo["difficultyMin"])}-${CragData().parseDifficulty(cragInfo["difficultyMax"])}';
 
     location = cragInfo["location"];
     var now = DateTime.now();
@@ -166,336 +166,360 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: SingleChildScrollView(
-          child: Container(
-              color: Colors.grey,
-              height: 800,
-              width: 360,
-              child: FutureBuilder(
-                future: getWeather(location, formattedDate),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done)
-                  {
-                    return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            // title
-                            Center(
-                              child: Text(
-                                cragDisplayName,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 30),
-                              ),
-                            ),
-          
-                            // row w/ picture and mainstats
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 1,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(right: 16.0),
-                                        child: Image.asset(
-                                            'assets/images/rockPlaceholder.jpg'),
-                                      )),
-                                  Expanded(
-                                      flex: 3,
-                                      child: Container(
-                                          child: Expanded(
-                                        flex: 2,
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              children: [
-                                                Text(textAlign: TextAlign.left, '${temperature}°C'),
-                                                Text(textAlign: TextAlign.left, condition)
-                                              ],
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Column(
-                                                children: [
-                                                  Text(textAlign: TextAlign.left, cragRockType),
-                                                  Text(textAlign: TextAlign.left, difficultyRange)
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )))
-                                ],
-                              ),
-                            ),
-          
-                            // column with barcharts
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Column(
+      child: Container(
+          color: Colors.grey,
+          height: 800,
+          width: 360,
+          child: FutureBuilder(
+              future: getWeather(location, formattedDate),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(children: [
+                        // title
+                        Align(
+                            alignment: Alignment.topCenter,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage(location: location)),
+                );
+                                  //Navigator.pop(context);
+                                  //super.dispose();
+                                },
+                                child: Text("back"))),
+                        Center(
+                          child: Text(
+                            cragDisplayName,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        ),
+
+                        // row w/ picture and mainstats
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: Image.asset(
+                                        'assets/images/rockPlaceholder.jpg'),
+                                  )),
+                              Expanded(
+                                flex: 2,
+                                child: Row(
+                                  children: [
+                                    Column(
                                       children: [
-                                        const SizedBox(
-                                          width: double.infinity,
-                                          child: const Text(
-                                            "Temperature History",
+                                        Text(
                                             textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          decoration: BoxDecoration(
-                                              border: Border.symmetric(horizontal: BorderSide(color: Colors.black) )),
-                                          child: AspectRatio(
-                                            aspectRatio: 3,
-                                            child: LineChart(
-                                              LineChartData(
-                                                borderData: FlBorderData(show: false),
-                                                lineBarsData: [
-                                                  LineChartBarData(
-                                                      spots:  history["tempHistory"]!,
-                                                      dotData: FlDotData(show: false)),
-                                                ],
-                                                titlesData: FlTitlesData(
-                                                  bottomTitles: AxisTitles(
-                                                      sideTitles:
-                                                         SideTitles(
-                                                            showTitles: true,
-                                                            interval: 3,
-                                                            getTitlesWidget: (value, meta) {
-                                                              String val = '-${12-value.toInt()}h';
-                                                              if (val == "-0h") {
-                                                                val = "now";
-                                                              }
-                                                              return Text(val);
-                                                            }
-                                                          )),
-                                                  leftTitles: AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(
-                                                            showTitles: true,
-                                                            reservedSize: 44,
-                                                            interval: 3,
-                                                             getTitlesWidget: (value, meta) {
-                                                              if (value == maxAndMin["temp"]!["max"] && value != maxAndMin["temp"]!["min"]) {
-                                                                return Text("");
-                                                              }
-                                                              return Text('${value.toInt()}°C');
-                                                            }
-                                                          )),
-                                                  topTitles: const AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(showTitles: false)),
-                                                  rightTitles: const AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(showTitles: false)),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-          
-                                        SizedBox(height: 20),
-          
-                                          const SizedBox(
-                                          width: double.infinity,
-                                          child: const Text(
-                                            "Rainfall History",
+                                            '${temperature}°C'),
+                                        Text(
                                             textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          decoration: BoxDecoration(
-                                              border: Border.symmetric(horizontal: BorderSide(color: Colors.black) )),
-                                          child: AspectRatio(
-                                            aspectRatio: 3,
-                                            child: LineChart(
-                                              LineChartData(
-                                                borderData: FlBorderData(show: false),
-                                                lineBarsData: [
-                                                  LineChartBarData(
-                                                      spots:  history["rainHistory"]!,
-                                                      dotData: FlDotData(show: false)),
-                                                ],
-                                                titlesData: FlTitlesData(
-                                                  bottomTitles: AxisTitles(
-                                                      sideTitles:
-                                                         SideTitles(
-                                                            showTitles: true,
-                                                            interval: 3,
-                                                            getTitlesWidget: (value, meta) {
-                                                              String val = '-${12-value.toInt()}h';
-                                                              if (val == "-0h") {
-                                                                val = "now";
-                                                              }
-                                                              return Text(val);
-                                                            }
-                                                          )),
-                                                  leftTitles: AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(
-                                                            showTitles: true,
-                                                            reservedSize: 44,
-                                                            interval: 3,
-                                                             getTitlesWidget: (value, meta) {
-                                                              if (value == maxAndMin["rain"]!["max"] && value != maxAndMin["rain"]!["min"]) {
-                                                                return Text("");
-                                                              }
-                                                              return Text('${value.toInt()}mm');
-                                                            }
-                                                          )),
-                                                  topTitles: const AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(showTitles: false)),
-                                                  rightTitles: const AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(showTitles: false)),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-          
-                                        SizedBox(height: 20),
-          
-                                          const SizedBox(
-                                          width: double.infinity,
-                                          child: const Text(
-                                            "Wind Speed History",
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          decoration: BoxDecoration(
-                                              border: Border.symmetric(horizontal: BorderSide(color: Colors.black) )),
-                                          child: AspectRatio(
-                                            aspectRatio: 3,
-                                            child: LineChart(
-                                              LineChartData(
-                                                borderData: FlBorderData(show: false),
-                                                lineBarsData: [
-                                                  LineChartBarData(
-                                                      spots:  history["windHistory"]!,
-                                                      dotData: FlDotData(show: false)),
-                                                ],
-                                                titlesData: FlTitlesData(
-                                                  bottomTitles: AxisTitles(
-                                                      sideTitles:
-                                                         SideTitles(
-                                                            showTitles: true,
-                                                            interval: 3,
-                                                            getTitlesWidget: (value, meta) {
-                                                              String val = '-${12-value.toInt()}h';
-                                                              if (val == "-0h") {
-                                                                val = "now";
-                                                              }
-                                                              return Text(val);
-                                                            }
-                                                          )),
-                                                  leftTitles: AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(
-                                                            showTitles: true,
-                                                            reservedSize: 44,
-                                                            interval: 8,
-                                                             getTitlesWidget: (value, meta) {
-                                                              if (value == maxAndMin["wind"]!["max"] && value != maxAndMin["wind"]!["min"]) {
-                                                                return Text("");
-                                                              }
-                                                              return Text('${value.toInt()}kph');
-                                                            }
-                                                          )),
-                                                  topTitles: const AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(showTitles: false)),
-                                                  rightTitles: const AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(showTitles: false)),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-          
-                                        SizedBox(height: 20),
-          
-                                          const SizedBox(
-                                          width: double.infinity,
-                                          child: const Text(
-                                            "Humidity History",
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          decoration: BoxDecoration(
-                                              border: Border.symmetric(horizontal: BorderSide(color: Colors.black) )),
-                                          child: AspectRatio(
-                                            aspectRatio: 3,
-                                            child: LineChart(
-                                              LineChartData(
-                                                borderData: FlBorderData(show: false),
-                                                lineBarsData: [
-                                                  LineChartBarData(
-                                                      spots:  history["humidityHistory"]!,
-                                                      dotData: FlDotData(show: false)),
-                                                ],
-                                                titlesData: FlTitlesData(
-                                                  bottomTitles: AxisTitles(
-                                                      sideTitles:
-                                                         SideTitles(
-                                                            showTitles: true,
-                                                            interval: 3,
-                                                            getTitlesWidget: (value, meta) {
-                                                              String val = '-${12-value.toInt()}h';
-                                                              if (val == "-0h") {
-                                                                val = "now";
-                                                              }
-                                                              return Text(val);
-                                                            }
-                                                          )),
-                                                  leftTitles: AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(
-                                                            showTitles: true,
-                                                            reservedSize: 44,
-                                                            interval: 8,
-                                                             getTitlesWidget: (value, meta) {
-                                                              if (value == maxAndMin["humidity"]!["max"] || value == maxAndMin["humidity"]!["min"]) {
-                                                                return Text("");
-                                                              }
-                                                              return Text('${value.toInt()}%');
-                                                            }
-                                                          )),
-                                                  topTitles: const AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(showTitles: false)),
-                                                  rightTitles: const AxisTitles(
-                                                      sideTitles:
-                                                          SideTitles(showTitles: false)),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-          
+                                            condition)
                                       ],
                                     ),
-                            )
-                          ]
+                                    Expanded(
+                                      flex: 2,
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                              textAlign: TextAlign.left,
+                                              cragRockType),
+                                          Text(
+                                              textAlign: TextAlign.left,
+                                              difficultyRange)
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        // column with barcharts
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                width: double.infinity,
+                                child: const Text(
+                                  "Temperature History",
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                    border: Border.symmetric(
+                                        horizontal:
+                                            BorderSide(color: Colors.black))),
+                                child: AspectRatio(
+                                  aspectRatio: 3.5,
+                                  child: LineChart(
+                                    LineChartData(
+                                      borderData: FlBorderData(show: false),
+                                      lineBarsData: [
+                                        LineChartBarData(
+                                            spots: history["tempHistory"]!,
+                                            dotData: FlDotData(show: false)),
+                                      ],
+                                      titlesData: FlTitlesData(
+                                        bottomTitles: AxisTitles(
+                                            sideTitles: SideTitles(
+                                                showTitles: true,
+                                                interval: 3,
+                                                getTitlesWidget: (value, meta) {
+                                                  String val =
+                                                      '-${12 - value.toInt()}h';
+                                                  if (val == "-0h") {
+                                                    val = "now";
+                                                  }
+                                                  return Text(val);
+                                                })),
+                                        leftTitles: AxisTitles(
+                                            sideTitles: SideTitles(
+                                                showTitles: true,
+                                                reservedSize: 44,
+                                                interval: 3,
+                                                getTitlesWidget: (value, meta) {
+                                                  if (value ==
+                                                          maxAndMin["temp"]![
+                                                              "max"] &&
+                                                      value !=
+                                                          maxAndMin["temp"]![
+                                                              "min"]) {
+                                                    return Text("");
+                                                  }
+                                                  return Text(
+                                                      '${value.toInt()}°C');
+                                                })),
+                                        topTitles: const AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                        rightTitles: const AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              const SizedBox(
+                                width: double.infinity,
+                                child: const Text(
+                                  "Rainfall History",
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                    border: Border.symmetric(
+                                        horizontal:
+                                            BorderSide(color: Colors.black))),
+                                child: AspectRatio(
+                                  aspectRatio: 3.5,
+                                  child: LineChart(
+                                    LineChartData(
+                                      borderData: FlBorderData(show: false),
+                                      lineBarsData: [
+                                        LineChartBarData(
+                                            spots: history["rainHistory"]!,
+                                            dotData: FlDotData(show: false)),
+                                      ],
+                                      titlesData: FlTitlesData(
+                                        bottomTitles: AxisTitles(
+                                            sideTitles: SideTitles(
+                                                showTitles: true,
+                                                interval: 3,
+                                                getTitlesWidget: (value, meta) {
+                                                  String val =
+                                                      '-${12 - value.toInt()}h';
+                                                  if (val == "-0h") {
+                                                    val = "now";
+                                                  }
+                                                  return Text(val);
+                                                })),
+                                        leftTitles: AxisTitles(
+                                            sideTitles: SideTitles(
+                                                showTitles: true,
+                                                reservedSize: 44,
+                                                interval: 3,
+                                                getTitlesWidget: (value, meta) {
+                                                  if (value ==
+                                                          maxAndMin["rain"]![
+                                                              "max"] &&
+                                                      value !=
+                                                          maxAndMin["rain"]![
+                                                              "min"]) {
+                                                    return Text("");
+                                                  }
+                                                  return Text(
+                                                      '${value.toInt()}mm');
+                                                })),
+                                        topTitles: const AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                        rightTitles: const AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              const SizedBox(
+                                width: double.infinity,
+                                child: const Text(
+                                  "Wind Speed History",
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                    border: Border.symmetric(
+                                        horizontal:
+                                            BorderSide(color: Colors.black))),
+                                child: AspectRatio(
+                                  aspectRatio: 3.5,
+                                  child: LineChart(
+                                    LineChartData(
+                                      borderData: FlBorderData(show: false),
+                                      lineBarsData: [
+                                        LineChartBarData(
+                                            spots: history["windHistory"]!,
+                                            dotData: FlDotData(show: false)),
+                                      ],
+                                      titlesData: FlTitlesData(
+                                        bottomTitles: AxisTitles(
+                                            sideTitles: SideTitles(
+                                                showTitles: true,
+                                                interval: 3,
+                                                getTitlesWidget: (value, meta) {
+                                                  String val =
+                                                      '-${12 - value.toInt()}h';
+                                                  if (val == "-0h") {
+                                                    val = "now";
+                                                  }
+                                                  return Text(val);
+                                                })),
+                                        leftTitles: AxisTitles(
+                                            sideTitles: SideTitles(
+                                                showTitles: true,
+                                                reservedSize: 44,
+                                                interval: 8,
+                                                getTitlesWidget: (value, meta) {
+                                                  if (value ==
+                                                          maxAndMin["wind"]![
+                                                              "max"] &&
+                                                      value !=
+                                                          maxAndMin["wind"]![
+                                                              "min"]) {
+                                                    return Text("");
+                                                  }
+                                                  return Text(
+                                                      '${value.toInt()}kph');
+                                                })),
+                                        topTitles: const AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                        rightTitles: const AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              const SizedBox(
+                                width: double.infinity,
+                                child: const Text(
+                                  "Humidity History",
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                    border: Border.symmetric(
+                                        horizontal:
+                                            BorderSide(color: Colors.black))),
+                                child: AspectRatio(
+                                  aspectRatio: 3.5,
+                                  child: LineChart(
+                                    LineChartData(
+                                      borderData: FlBorderData(show: false),
+                                      lineBarsData: [
+                                        LineChartBarData(
+                                            spots: history["humidityHistory"]!,
+                                            dotData: FlDotData(show: false)),
+                                      ],
+                                      titlesData: FlTitlesData(
+                                        bottomTitles: AxisTitles(
+                                            sideTitles: SideTitles(
+                                                showTitles: true,
+                                                interval: 3,
+                                                getTitlesWidget: (value, meta) {
+                                                  String val =
+                                                      '-${12 - value.toInt()}h';
+                                                  if (val == "-0h") {
+                                                    val = "now";
+                                                  }
+                                                  return Text(val);
+                                                })),
+                                        leftTitles: AxisTitles(
+                                            sideTitles: SideTitles(
+                                                showTitles: true,
+                                                reservedSize: 44,
+                                                interval: 8,
+                                                getTitlesWidget: (value, meta) {
+                                                  if (value ==
+                                                          maxAndMin[
+                                                                  "humidity"]![
+                                                              "max"] ||
+                                                      value ==
+                                                          maxAndMin[
+                                                                  "humidity"]![
+                                                              "min"]) {
+                                                    return Text("");
+                                                  }
+                                                  return Text(
+                                                      '${value.toInt()}%');
+                                                })),
+                                        topTitles: const AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                        rightTitles: const AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         )
-                    );
-                  } else {
-                    return CircularProgressIndicator();
-                  }
+                      ]));
+                } else {
+                  return CircularProgressIndicator();
                 }
-              )
-            ),
-        )
-    );
+              })),
+    ));
   }
 }
