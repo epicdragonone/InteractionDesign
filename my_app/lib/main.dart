@@ -146,7 +146,7 @@ class _MyAppState extends State<MyApp> {
                       width: screenWidth * sideBarWidth,
                       data: searchMenuData, // Pass weather data instead of strings
                       onFilterButtonPressed: toggleSearchFilter,
-                      onCragSelected: (newCragName) => updateHomePageCrag(newCragName),
+                      onCragSelected: (newCragName) => Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(defaultHomePageCrag: newCragName, defaultCrags: ["crag_a"]))/*HomePage(defaultCrag: newCragName))*/),
                     ),
                   ),
 

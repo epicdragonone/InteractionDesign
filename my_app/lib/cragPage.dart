@@ -2,6 +2,7 @@ import 'dart:math';
 
 
 import 'package:my_app/homePage.dart';
+import 'package:my_app/main.dart';
 import 'package:provider/provider.dart';
 
 // import 'package:provider/provider.dart';
@@ -189,7 +190,7 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
                                 onPressed: () {
                                                   Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage(defaultCrag: cragName)),
+                  MaterialPageRoute(builder: (context) => MyApp(defaultHomePageCrag: cragName,defaultCrags: ["crag_a", "crag_b", "crag_c", "crag_d", "crag_e", "crag_f", "crag_g", "crag_h", "crag_i", "crag_j", "crag_k", "crag_l", "crag_m", "crag_n", "crag_o"],)),
                 );
                                   //Navigator.pop(context);
                                   //super.dispose();
