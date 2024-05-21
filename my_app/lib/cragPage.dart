@@ -208,7 +208,7 @@ class _MyHomePageState extends State<CragPage> with ChangeNotifier {
                                 };
                                                   Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyApp(defaultHomePageCrag: c[cragDisplayName]!,defaultCrags: ["crag_a", "crag_b", "crag_c", "crag_d", "crag_e", "crag_f", "crag_g", "crag_h", "crag_i", "crag_j", "crag_k", "crag_l", "crag_m", "crag_n", "crag_o"],)),
+                  MaterialPageRoute(builder: (context) => MyApp(defaultHomePageCrag: "Stanage_Edge",defaultCrags: ["Stanage_Edge", "Froggatt_Edge", "Curbar_Edge", "Burbage_North", "Burbage_South", "Milstone_Edge", "Birchen_Edge", "Lawrencefield", "Raven_Tor", "Dovedale", "Chee_Dale", "Malham_Cove", "Goredale_Scar", "Kilnsey_Crag", "Beach_Hill"],)),
                 );
                                   //Navigator.pop(context);
                                   //super.dispose();

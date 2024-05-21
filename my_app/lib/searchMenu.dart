@@ -47,7 +47,7 @@ class _SearchMenuState extends State<SearchMenu> {
 
     setState(() {
       _filteredData = widget.data
-          .where((element) => element.weather.locationName //display name
+          .where((element) => element.cragName //display name
               .toLowerCase()
               .contains(_searchController.text.toLowerCase()))
           .toList();
@@ -112,7 +112,15 @@ class _SearchMenuState extends State<SearchMenu> {
         builder: (context, constraints) {
           final listViewWidth = constraints.maxWidth;
 
-          return ListView.builder(
+          return _filteredData.isEmpty
+            ? Center(
+                child: Text(
+                  'No items found',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              )
+            : 
+          ListView.builder(
             itemCount: _filteredData.length,
             itemBuilder: (context, index) => ListTile(
               onTap: () => _onCragTap(_filteredData[index].cragName),

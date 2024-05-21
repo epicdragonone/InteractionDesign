@@ -1,106 +1,106 @@
 {
     "crags": {
-        "crag_a": {
-            "name": "Crag A",
-            "location": "AB1",
+        "Stanage_Edge": {
+            "name": "Stanage_Edge",
+            "location": "S32",
             "difficultyMin": 20,
             "difficultyMax": 42,
             "rockMaterial": "limestone"
         },
-        "crag_b": {
-            "name": "Crag B",
-            "location": "BC2",
+        "Froggatt_Edge": {
+            "name": "Froggatt_Edge",
+            "location": "S32",
             "difficultyMin": 18,
             "difficultyMax": 39,
             "rockMaterial": "granite"
         },
-        "crag_c": {
-            "name": "Crag C",
-            "location": "CD3",
+        "Curbar_Edge": {
+            "name": "Curbar_Edge",
+            "location": "S32",
             "difficultyMin": 24,
             "difficultyMax": 49,
             "rockMaterial": "sandstone"
         },
-        "crag_d": {
-            "name": "Crag D",
-            "location": "DE4",
+        "Burbage_North": {
+            "name": "Curbar_Edge",
+            "location": "S32",
             "difficultyMin": 29,
             "difficultyMax": 56,
             "rockMaterial": "gneiss"
         },
-        "crag_e": {
-            "name": "Crag E",
-            "location": "EF5",
+        "Burbage_South": {
+            "name": "Burbage_North",
+            "location": "S32",
             "difficultyMin": 19,
             "difficultyMax": 52,
             "rockMaterial": "basalt"
         },
-        "crag_f": {
-            "name": "Crag F",
-            "location": "FG6",
+        "Milstone_Edge": {
+            "name": "Milstone_Edge",
+            "location": "S32",
             "difficultyMin": 32,
             "difficultyMax": 60,
             "rockMaterial": "limestone"
         },
-        "crag_g": {
-            "name": "Crag G",
-            "location": "GH7",
+        "Birchen_Edge": {
+            "name": "Birchen_Edge",
+            "location": "DE45",
             "difficultyMin": 22,
             "difficultyMax": 47,
             "rockMaterial": "granite"
         },
-        "crag_h": {
-            "name": "Crag H",
-            "location": "HI8",
+        "Lawrencefield": {
+            "name": "Lawrencefield",
+            "location": "S32",
             "difficultyMin": 25,
             "difficultyMax": 58,
             "rockMaterial": "gneiss"
         },
-        "crag_i": {
-            "name": "Crag I",
-            "location": "IJ9",
+        "Raven_Tor": {
+            "name": "Raven_Tor",
+            "location": "RG1",
             "difficultyMin": 16,
             "difficultyMax": 35,
             "rockMaterial": "sandstone"
         },
-        "crag_j": {
-            "name": "Crag J",
-            "location": "JK1",
+        "Dovedale": {
+            "name": "Dovedale",
+            "location": "DE6",
             "difficultyMin": 27,
             "difficultyMax": 53,
             "rockMaterial": "basalt"
         },
-        "crag_k": {
-            "name": "Crag K",
-            "location": "KL2",
+        "Chee_Dale": {
+            "name": "Chee_Dale",
+            "location": "CB2",
             "difficultyMin": 28,
             "difficultyMax": 59,
             "rockMaterial": "limestone"
         },
-        "crag_l": {
-            "name": "Crag L",
-            "location": "LM3",
+        "Malham_Cove": {
+            "name": "Malham_Cove",
+            "location": "LL49",
             "difficultyMin": 21,
             "difficultyMax": 46,
             "rockMaterial": "granite"
         },
-        "crag_m": {
-            "name": "Crag M",
-            "location": "MN4",
+        "Goredale_Scar": {
+            "name": "Goredale_Scar",
+            "location": "LL55",
             "difficultyMin": 18,
             "difficultyMax": 37,
             "rockMaterial": "gneiss"
         },
-        "crag_n": {
-            "name": "Crag N",
-            "location": "NO5",
+        "Kilnsey_Crag": {
+            "name": "Kilnsey_Crag",
+            "location": "LL65",
             "difficultyMin": 32,
             "difficultyMax": 50,
             "rockMaterial": "sandstone"
         },
-        "crag_o": {
-            "name": "Crag O",
-            "location": "OP6",
+        "Beach_Hill": {
+            "name": "Beach_Hill",
+            "location": "WN6",
             "difficultyMin": 26,
             "difficultyMax": 55,
             "rockMaterial": "basalt"

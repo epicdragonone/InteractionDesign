@@ -24,8 +24,10 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-// TODO: Change dates and times when pressing buttons. Make sure this works. Then, for each time, calculate the new weather inputs
-// TODO: Make links with Cragnames dynamic etc. Do this by passing in the getWeather thing that WE have.
+// DONE: Change dates and times when pressing buttons. THIS WORKS 
+// TODO: Calculate the new weather inputs when this happens
+// Firstly, we need to fix 
+
 
 
 class _HomePageState extends State<HomePage> {
@@ -39,27 +41,33 @@ class _HomePageState extends State<HomePage> {
   String rain = ""; // Done
   String calculatedGoodness = ""; // Done
   Color calculatedGoodnessColour = Color.fromARGB(0, 198, 147, 147); // Done
-  int currTime = 11; 
-  String alphaCrag = "crag_b"; 
-  String betaCrag = "crag_c"; 
-  String charlieCrag = "crag_d"; 
-  String deltaCrag = "crag_e"; 
-  String echoCrag = "crag_f";  
+  int currTime = 0; 
+  String alphaCrag = "Froggatt_Edge"; 
+  String betaCrag = "Curbar_Edge"; 
+  String charlieCrag = "Burbage_North"; 
+  String deltaCrag = "Burbage_South"; 
+  String echoCrag = "Milstone_Edge";  
   String location = ""; // Done
   String formattedDate = ""; // Done
   double heatParam = 0; // Done
   double windParam = 0; // Done
   double rainParam = 0; // Done
-  String trueCragName = "";
+  String rainedXHoursAgoOutput = "";
 
 
-  void setup(String cragName) {
+  void setup(String cragName, int time) {
     print(cragName);
-    Map<String, dynamic> cragInfo = CragData().get()[cragName];
-    this.trueCragName = cragName;
+    String cragName2 = cragName.toLowerCase().replaceAll(' ', '_');
+    Map<String, dynamic> cragInfo = CragData().get()[cragName2];
+    print(cragName);
     this.cragName = cragInfo["name"];
     difficulty = '${CragData().parseDifficulty(cragInfo["difficultyMin"])}-${CragData().parseDifficulty(cragInfo["difficultyMax"])}';
     location = cragInfo["location"];
+    if (time == 0) {
+      currTime = 0;
+    } else {
+      currTime += time;
+    }
 
     // getWeather(location, formattedDate);
   
@@ -71,17 +79,40 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     var now = DateTime.now();
     formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    setup(widget.defaultCrag);
+    setup(widget.defaultCrag, 0);
+    print(widget.defaultCrag);
     print("homepage setup");
   }
 
 
   Future<void> getWeather(String location, String formattedDate) async {
 
-
     List<Future<api.Weather>> histories = [];
 
-    for (var i = -12; i <= 0 ; i++) {
+    for (var i = -12; i <= 12; i++) {
+      int hours = DateTime.now().hour + i;
+      DateTime now = DateTime.now();
+      if (hours < 0) {
+        hours = 24 + hours;
+        now.subtract(const Duration(days: 1));
+      }
+
+      if (hours > 23) {
+        hours -= 24;
+        now.add(const Duration(days: 1));
+      }
+
+      if (i <= 0) {
+        histories.add(api.WeatherApi()
+          .fetchWeather(location, formattedDate, hours, "history"));
+      } else {
+        histories.add(api.WeatherApi().fetchWeather(location, formattedDate, hours, "forecast"));
+      }
+      
+    }
+
+
+    for (var i = -11; i <= 0 ; i++) {
       int hours = DateTime.now().hour + i;
       DateTime now = DateTime.now();
       if (hours < 0) {
@@ -94,6 +125,7 @@ class _HomePageState extends State<HomePage> {
     }
 
 
+
     return await Future.wait(histories).then((historiesResolved) {
         
       // This is to find the last time it rained
@@ -104,8 +136,13 @@ class _HomePageState extends State<HomePage> {
           rainedXHoursAgo = i;
           break;
         }
+      } 
+      if (rainedXHoursAgo == 11) {
+        rainedXHoursAgoOutput = "Has not rained in over a day";
+      } else {
+        rainedXHoursAgo += currTime;
+        rainedXHoursAgoOutput = "Rained $rainedXHoursAgo hours ago";
       }
-
 
       //try {
         
@@ -114,15 +151,7 @@ class _HomePageState extends State<HomePage> {
         // below line needs to be changed to get weather at the correct time
         dataAtTime = historiesResolved[11];
 
-        /*
-        if (currTime <= 11) { 
-          dataAtTime = await api.WeatherApi().fetchWeather(location, formattedDate, currTime, "history");
-          print("okokokok");
-        } else {
-          dataAtTime = await api.WeatherApi().fetchWeather(location, formattedDate, currTime, "forecast");
-          print("monke");
-        }
-        */
+
         
 
 
@@ -236,7 +265,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CragPage(cragName: trueCragName,title: "title",)),
+                  MaterialPageRoute(builder: (context) => CragPage(cragName: "Stanage_Edge",title: "title",)),
                 );
               },
               child: const Image(
@@ -267,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: Text(
-                    "Rained ${rainedXHoursAgo} hours ago",
+                    rainedXHoursAgoOutput,
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
@@ -349,7 +378,13 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_double_arrow_left),
-                            onPressed: () {currTime -= 3;},
+                            onPressed: () {
+                            setState(() {
+                              print(cragName);
+                              setup(cragName, -3);
+                            },);
+
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -373,7 +408,12 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_arrow_left),
-                            onPressed: () {currTime -= 1;},
+                            onPressed: () {
+                              setState(() {
+                              setup(cragName, -1);
+                            },);
+
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -397,7 +437,13 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.restore),
-                            onPressed: () {currTime = 11;},
+                            onPressed: () {                            
+                              setState(() {
+                              setup(cragName, 0);
+                            },);
+                            
+                            
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -421,7 +467,12 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_arrow_right),
-                            onPressed: () {currTime += 1;},
+                            onPressed: () {
+                            setState(() {
+                              setup(cragName, 1);
+                            },);
+
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -445,7 +496,11 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_double_arrow_right),
-                            onPressed: () {currTime += 3;},
+                            onPressed: () {
+                            setState(() {
+                              setup(cragName, 3);
+                            },);
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -491,8 +546,9 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_b");
-                          cragName = "crag_b";
+                          setup("Froggatt_Edge", 0);
+                          cragName = "Froggatt_Edge";
+
                         },);
                       },
                       color: const Color(0xffffffff),
@@ -517,8 +573,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_c");
-                          cragName = "crag_c";
+                          setup("Curbar_Edge", 0);
+                          cragName = "Curbar_Edge";
                         },);
                       },
                       color: const Color(0xffffffff),
@@ -543,8 +599,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                           setState(() {
-                          setup("crag_d");
-                          cragName = "crag_d";
+                          setup("Burbage_North", 0);
+                          cragName = "Burbage_North";
                         },);
                       },
                       color: const Color(0xffffffff),
@@ -569,8 +625,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_e");
-                          cragName = "crag_e";
+                          setup("Burbage_South", 0);
+                          cragName = "Burbage_South";
                         },);
 
                       },
@@ -596,8 +652,8 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                           setState(() {
-                          setup("crag_f");
-                          cragName = "crag_f";
+                          setup("Milstone_Edge", 0);
+                          cragName = "Milstone_Edge";
                         },);
                       },
                       color: const Color(0xffffffff),
