@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/cragCurrentWeather.dart';
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 enum RainIntensity { dry, drizzle, heavy, storm }
 
 class FilterPage extends StatelessWidget {
   final Function(List<CragCurrentWeather>) onApplyButtonPressed;
   final double width;
+<<<<<<< Updated upstream
   final List<CragCurrentWeather>data;
   final List<CragCurrentWeather>filtered_data;
   const FilterPage({Key? key,required this.width, required this.data, required this.onApplyButtonPressed, required this.filtered_data}) : super(key: key);
@@ -60,6 +64,11 @@ class FilterPage extends StatelessWidget {
   filtered_data.clear();
   filtered_data.addAll(dataCopy);
 }
+=======
+  final List<CragCurrentWeather> cragList;
+
+  const FilterPage({Key? key,required this.width,required this.cragList, required this.onApplyButtonPressed}) : super(key: key);
+>>>>>>> Stashed changes
 
   @override
   Widget build(BuildContext context) {
