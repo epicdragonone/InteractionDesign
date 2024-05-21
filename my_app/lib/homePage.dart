@@ -24,8 +24,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-// TODO: Change dates and times when pressing buttons. Make sure this works. Then, for each time, calculate the new weather inputs
-// TODO: Make links with Cragnames dynamic etc. Do this by passing in the getWeather thing that WE have.
+// TODO: Change dates and times when pressing buttons. 
+// Calculate the new weather inputs when this happens
 
 
 class _HomePageState extends State<HomePage> {
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   String rain = ""; // Done
   String calculatedGoodness = ""; // Done
   Color calculatedGoodnessColour = Color.fromARGB(0, 198, 147, 147); // Done
-  int currTime = 11; 
+  int currTime = 0; 
   String alphaCrag = "crag_b"; 
   String betaCrag = "crag_c"; 
   String charlieCrag = "crag_d"; 
@@ -50,15 +50,16 @@ class _HomePageState extends State<HomePage> {
   double heatParam = 0; // Done
   double windParam = 0; // Done
   double rainParam = 0; // Done
+  String rainedXHoursAgoOutput = "";
 
-
-  void setup(String cragName) {
+  void setup(String cragName, String time) {
     
     Map<String, dynamic> cragInfo = CragData().get()[cragName];
     print(cragName);
     this.cragName = cragInfo["name"];
     difficulty = '${CragData().parseDifficulty(cragInfo["difficultyMin"])}-${CragData().parseDifficulty(cragInfo["difficultyMax"])}';
     location = cragInfo["location"];
+    currTime ;
 
     // getWeather(location, formattedDate);
   
@@ -70,7 +71,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     var now = DateTime.now();
     formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    setup(widget.defaultCrag);
+    setup(widget.defaultCrag, formattedDate);
     print("homepage setup");
   }
 
@@ -80,7 +81,7 @@ class _HomePageState extends State<HomePage> {
 
     List<Future<api.Weather>> histories = [];
 
-    for (var i = -12; i <= 0 ; i++) {
+    for (var i = -11; i <= 0 ; i++) {
       int hours = DateTime.now().hour + i;
       DateTime now = DateTime.now();
       if (hours < 0) {
@@ -103,8 +104,12 @@ class _HomePageState extends State<HomePage> {
           rainedXHoursAgo = i;
           break;
         }
+      } 
+      if (rainedXHoursAgo == 11) {
+        rainedXHoursAgoOutput = "Has not rained in over a day";
+      } else {
+        rainedXHoursAgoOutput = "Rained $rainedXHoursAgo hours ago";
       }
-
 
       //try {
         
@@ -113,15 +118,7 @@ class _HomePageState extends State<HomePage> {
         // below line needs to be changed to get weather at the correct time
         dataAtTime = historiesResolved[11];
 
-        /*
-        if (currTime <= 11) { 
-          dataAtTime = await api.WeatherApi().fetchWeather(location, formattedDate, currTime, "history");
-          print("okokokok");
-        } else {
-          dataAtTime = await api.WeatherApi().fetchWeather(location, formattedDate, currTime, "forecast");
-          print("monke");
-        }
-        */
+
         
 
 
@@ -266,7 +263,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: Text(
-                    "Rained ${rainedXHoursAgo} hours ago",
+                    rainedXHoursAgoOutput,
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
@@ -348,7 +345,13 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.keyboard_double_arrow_left),
-                            onPressed: () {currTime -= 3;},
+                            onPressed: () {
+                            setState(() {
+                              setup(cragName, formattedDate);
+                              currTime -= 3;
+                            },);
+
+                            },
                             color: Color(0xff212435),
                             iconSize: 24,
                           ),
@@ -490,8 +493,9 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_b");
+                          setup("crag_b", formattedDate);
                           cragName = "crag_b";
+
                         },);
                       },
                       color: const Color(0xffffffff),
@@ -516,7 +520,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_c");
+                          setup("crag_c", formattedDate);
                           cragName = "crag_c";
                         },);
                       },
@@ -542,7 +546,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                           setState(() {
-                          setup("crag_d");
+                          setup("crag_d", formattedDate);
                           cragName = "crag_d";
                         },);
                       },
@@ -568,7 +572,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          setup("crag_e");
+                          setup("crag_e", formattedDate);
                           cragName = "crag_e";
                         },);
 
@@ -595,7 +599,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialButton(
                       onPressed: () {
                           setState(() {
-                          setup("crag_f");
+                          setup("crag_f", formattedDate);
                           cragName = "crag_f";
                         },);
                       },
